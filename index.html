@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>¡Feliz 21 de Septiembre, Ivonne! 🌻</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
+  <!-- Google Fonts: Caveat, Fredoka, Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Fredoka:wght@400;500;600;700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            caveat: ['Caveat', 'cursive'],
+            fredoka: ['Fredoka', 'sans-serif'],
+            poppins: ['Poppins', 'sans-serif'],
+          },
+          colors: {
+            sunflower: {
+              100: '#FEF3C7',
+              300: '#FCD34D',
+              400: '#FBBF24',
+              500: '#F59E0B',
+              600: '#D97706',
+              700: '#B45309',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(180deg, #FFFDF7 0%, #FEF9C3 40%, #FEF08A 75%, #FDE68A 100%);
+      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Ambient background canvas */
+    #ambient-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* SVG Sunflower animations */
+    .sunflower-container {
+      perspective: 1000px;
+    }
+
+    #sunflower-svg {
+      transform-origin: 150px 270px;
+    }
+
+    .stem {
+      stroke-dasharray: 200;
+      stroke-dashoffset: 200;
+      transition: stroke-dashoffset 0.1s ease-out;
+    }
+
+    .leaf-left, .leaf-right {
+      transform-origin: center;
+      transform: scale(0);
+      transition: transform 0.15s ease-out;
+    }
+
+    .petal {
+      transform-origin: 150px 150px;
+      transform: scale(0);
+      transition: transform 0.15s ease-out;
+    }
+
+    .flower-center {
+      transform-origin: 150px 150px;
+      transform: scale(0);
+      transition: transform 0.15s ease-out;
+    }
+
+    /* Continuous gentle swaying animation when bloomed */
+    @keyframes gentle-sway {
+      0%, 100% { transform: rotate(-3.5deg); }
+      50% { transform: rotate(3.5deg); }
+    }
+
+    /* Glow animation */
+    @keyframes pulse-glow {
+      0%, 100% { filter: drop-shadow(0 0 15px rgba(251, 191, 36, 0.6)); }
+      50% { filter: drop-shadow(0 0 35px rgba(251, 191, 36, 0.95)); }
+    }
+
+    .glowing {
+      animation: gentle-sway 4.5s infinite ease-in-out, pulse-glow 3.5s infinite ease-in-out;
+    }
+
+    /* Typewriter Blinking Cursor */
+    .typewriter-cursor {
+      display: inline-block;
+      width: 3px;
+      height: 1.1em;
+      background-color: #D97706;
+      margin-left: 2px;
+      vertical-align: middle;
+      animation: blink 0.8s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* Floating bouncing arrow */
+    @keyframes bounce-slow {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(8px); }
+    }
+
+    .bounce-indicator {
+      animation: bounce-slow 2s infinite ease-in-out;
+    }
+
+    /* Glassmorphism subtle modal card */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(254, 240, 138, 0.9);
+      box-shadow: 0 25px 50px -12px rgba(217, 119, 6, 0.25);
+    }
+
+    /* Pulsing CTA Button */
+    @keyframes button-pulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 10px 25px -5px rgba(245, 158, 11, 0.5); }
+      50% { transform: scale(1.04); box-shadow: 0 15px 35px -5px rgba(245, 158, 11, 0.8); }
+    }
+
+    .pulse-btn {
+      animation: button-pulse 2.2s infinite ease-in-out;
+    }
+
+    /* Evasive button motion */
+    #btn-no {
+      transition: transform 0.2s ease-out, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+  </style>
+</head>
+<body class="relative min-h-[180vh] selection:bg-sunflower-300">
+
+  <!-- Ambient Floating Petals Canvas -->
+  <canvas id="ambient-canvas"></canvas>
+
+  <!-- STAGE 1: CENTERED HANDWRITTEN LANDING POEM -->
+  <header class="relative z-20 w-full max-w-xl mx-auto px-6 pt-10 pb-6 text-center min-h-[85vh] flex flex-col justify-between items-center">
+    
+    <!-- Top Badge & Text Container -->
+    <div class="w-full flex flex-col items-center">
+      <span class="inline-block bg-sunflower-100 text-sunflower-700 text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-widest mb-6 border border-sunflower-300 shadow-sm">
+        21 de Septiembre 🌻 | Para Ivonne
+      </span>
+      
+      <!-- Centered Letter Container -->
+      <div class="space-y-5 text-center max-w-lg mx-auto w-full">
+        
+        <!-- Frase Destacada (Negrita Centrada) -->
+        <h1 id="typewriter-title" class="font-fredoka font-bold text-amber-950 text-xl sm:text-2xl md:text-3xl leading-snug min-h-[60px] drop-shadow-sm text-center"></h1>
+        
+        <!-- Cuerpo del Mensaje (Texto Fluido en Cursiva Centrado) -->
+        <p id="typewriter-body" class="font-caveat italic text-amber-900 text-2xl sm:text-3xl leading-relaxed min-h-[130px] font-medium text-center"></p>
+        
+        <!-- Línea Divisoria Suave -->
+        <div id="typewriter-divider" class="hidden my-4 border-t border-amber-300/60 w-3/4 mx-auto transition-all duration-500"></div>
+
+        <!-- Remate Final (Centrado) -->
+        <p id="typewriter-footer" class="font-fredoka font-semibold text-amber-900 text-base sm:text-lg min-h-[40px] text-center"></p>
+      
+      </div>
+    </div>
+
+    <!-- Scroll Prompt Indicator -->
+    <div id="scroll-prompt" class="pt-6 text-center transition-all duration-700 opacity-0 transform translate-y-4">
+      <p class="text-xs font-semibold text-amber-900 tracking-wide uppercase mb-2">
+        Ahora desliza para cultivar tu girasol ⬇️🌻
+      </p>
+      <div class="bounce-indicator inline-block text-sunflower-600 text-2xl">
+        ⬇️
+      </div>
+    </div>
+
+  </header>
+
+
+  <!-- STAGE 2: STICKY SUNFLOWER CANVAS (SCROLL FINISHES HERE AT 100%) -->
+  <div class="sticky top-0 h-screen w-full pointer-events-none z-10 flex flex-col items-center justify-center p-4">
+    <div class="sunflower-container flex flex-col items-center justify-center">
+      
+      <svg id="sunflower-svg" class="w-64 h-64 md:w-72 md:h-72 transition-all duration-500 overflow-visible" viewBox="0 0 300 300">
+        <!-- Soil base -->
+        <ellipse cx="150" cy="275" rx="48" ry="12" fill="#D97706" opacity="0.25" />
+        
+        <!-- Stem -->
+        <path id="stem-path" class="stem" d="M150,270 Q145,210 150,150" fill="none" stroke="#22C55E" stroke-width="8" stroke-linecap="round"/>
+        
+        <!-- Leaves -->
+        <g id="leaf-l" class="leaf-left">
+          <path d="M148,220 Q105,210 115,190 Q142,190 148,220 Z" fill="#16A34A"/>
+        </g>
+        <g id="leaf-r" class="leaf-right">
+          <path d="M152,200 Q195,190 185,170 Q158,170 152,200 Z" fill="#22C55E"/>
+        </g>
+
+        <!-- Petals Layer -->
+        <g id="petals-group"></g>
+
+        <!-- Flower Center -->
+        <g id="flower-center-el" class="flower-center">
+          <circle cx="150" cy="150" r="34" fill="#78350F" />
+          <circle cx="150" cy="150" r="29" fill="#92400E" stroke="#B45309" stroke-width="2" />
+          <!-- Seed Details -->
+          <circle cx="142" cy="144" r="2" fill="#FBBF24" />
+          <circle cx="156" cy="144" r="2" fill="#FBBF24" />
+          <circle cx="148" cy="152" r="2" fill="#F59E0B" />
+          <circle cx="158" cy="154" r="1.5" fill="#FBBF24" />
+          <circle cx="138" cy="152" r="1.5" fill="#F59E0B" />
+          <circle cx="150" cy="138" r="2" fill="#F59E0B" />
+          <circle cx="144" cy="158" r="1.5" fill="#FBBF24" />
+        </g>
+      </svg>
+      
+      <!-- CAPTION: "Flores 100% naturales jaja 🌻" -->
+      <p id="flower-caption" class="text-sm text-gray-800 font-fredoka font-semibold mt-2 transition-all duration-500 opacity-0 bg-amber-100/90 px-4 py-1.5 rounded-full border border-amber-300 shadow-sm pointer-events-auto">
+        Flores 100% naturales jaja 🌻
+      </p>
+
+      <!-- CREATIVE ACTION BUTTON UNDER FLOWER -->
+      <button id="btn-unlock-surprise" class="mt-4 py-3.5 px-6 rounded-2xl bg-gradient-to-r from-sunflower-400 via-amber-400 to-sunflower-500 text-gray-900 font-fredoka font-bold text-base pulse-btn hover:scale-105 active:scale-95 transition-all duration-500 opacity-0 pointer-events-auto hidden flex items-center gap-2 border border-amber-300">
+        <span>✨ Pulsar para desbloquear tu sorpresa... 🎁</span>
+      </button>
+
+    </div>
+  </div>
+
+
+  <!-- STAGE 3: INTERACTIVE SURPRISE MODAL POPUP -->
+  <div id="proposal-modal" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-md flex items-center justify-center p-4 transition-all duration-500 opacity-0 pointer-events-none">
+    
+    <div class="glass-card rounded-3xl p-6 md:p-8 text-center max-w-md w-full relative transform scale-90 transition-all duration-500 space-y-5" id="modal-card">
+      
+      <!-- Close Button -->
+      <button id="btn-close-modal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-all">
+        ✕
+      </button>
+
+      <!-- Badge Header (☕ Sorpresa desbloqueada) -->
+      <span class="inline-block bg-amber-100 text-amber-800 text-xs font-semibold px-3.5 py-1.5 rounded-full tracking-wide uppercase border border-amber-200 shadow-sm">
+        ☕ Sorpresa desbloqueada
+      </span>
+
+      <!-- Question -->
+      <h3 class="font-fredoka text-lg sm:text-xl font-bold text-gray-800 leading-relaxed pt-1">
+        "Las flores virtuales están bonitas, pero no vienen con cafeína jaja. ¿Amerita festejar la primavera con un buen café con leche y algo rico estos días?"
+      </h3>
+
+      <!-- Action Buttons -->
+      <div id="buttons-container" class="relative min-h-[110px] w-full flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+        <!-- Botón Verde (Solo SÍ) -->
+        <button id="btn-yes" class="w-full sm:w-1/2 py-3.5 px-4 rounded-xl bg-emerald-500 text-white font-fredoka font-bold text-lg shadow-md shadow-emerald-500/30 hover:bg-emerald-600 hover:scale-105 active:scale-95 transition-all">
+          Sí 🎉
+        </button>
+
+        <!-- Botón No Inicial Rojo (Cambia a GRIS evasivo con "Paso del café 🙈") -->
+        <button id="btn-no" class="w-full sm:w-1/2 py-3.5 px-4 rounded-xl bg-rose-500 text-white font-fredoka font-semibold text-base shadow-md shadow-rose-500/30 hover:bg-rose-600 transition-all select-none">
+          No ❌
+        </button>
+      </div>
+
+      <!-- Final WhatsApp Card -->
+      <div id="final-message" class="hidden space-y-4 pt-2">
+        <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl text-emerald-800 text-sm font-medium">
+          ¡Trato hecho! ☕🤝🎉<br/>
+          Ya arreglamos el día por chat.
+        </div>
+        
+        <a id="btn-whatsapp" target="_blank" rel="noopener noreferrer" 
+           class="inline-flex items-center justify-center gap-2 w-full py-3.5 px-6 rounded-2xl bg-emerald-600 text-white font-fredoka font-semibold text-base shadow-lg shadow-emerald-600/30 hover:bg-emerald-700 hover:scale-[1.02] active:scale-[0.98] transition-all">
+          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+          </svg>
+          <span>Confirmar por WhatsApp 💬</span>
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <script>
+    // --- 1. GENERATE SVG PETALS (32 LAYERED PETALS) ---
+    const petalsGroup = document.getElementById('petals-group');
+    const totalOuterPetals = 16;
+    const totalInnerPetals = 16;
+    const petalElements = [];
+
+    // Outer Petals Layer
+    for (let i = 0; i < totalOuterPetals; i++) {
+      const angle = (360 / totalOuterPetals) * i;
+      const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+      g.classList.add("petal");
+      
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("d", "M150,150 Q136,70 150,20 Q164,70 150,150 Z");
+      path.setAttribute("fill", i % 2 === 0 ? "#FBBF24" : "#F59E0B");
+      path.setAttribute("stroke", "#D97706");
+      path.setAttribute("stroke-width", "0.8");
+      
+      g.appendChild(path);
+      g.setAttribute("transform", `rotate(${angle} 150 150)`);
+      petalsGroup.appendChild(g);
+      petalElements.push(g);
+    }
+
+    // Inner Petals Layer
+    for (let i = 0; i < totalInnerPetals; i++) {
+      const angle = ((360 / totalInnerPetals) * i) + (360 / (totalInnerPetals * 2));
+      const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+      g.classList.add("petal");
+      
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("d", "M150,150 Q140,80 150,35 Q160,80 150,150 Z");
+      path.setAttribute("fill", "#FCD34D");
+      path.setAttribute("stroke", "#F59E0B");
+      path.setAttribute("stroke-width", "0.6");
+      
+      g.appendChild(path);
+      g.setAttribute("transform", `rotate(${angle} 150 150)`);
+      petalsGroup.appendChild(g);
+      petalElements.push(g);
+    }
+
+    // SVG & DOM References
+    const stemPath = document.getElementById('stem-path');
+    const leafL = document.getElementById('leaf-l');
+    const leafR = document.getElementById('leaf-r');
+    const flowerCenter = document.getElementById('flower-center-el');
+    const sunflowerSvg = document.getElementById('sunflower-svg');
+    const flowerCaption = document.getElementById('flower-caption');
+    const btnUnlockSurprise = document.getElementById('btn-unlock-surprise');
+    const scrollPrompt = document.getElementById('scroll-prompt');
+    const proposalModal = document.getElementById('proposal-modal');
+    const modalCard = document.getElementById('modal-card');
+    const btnCloseModal = document.getElementById('btn-close-modal');
+    const typewriterDivider = document.getElementById('typewriter-divider');
+
+    // --- 2. TYPEWRITER EFFECT FOR CENTERED POEM ---
+    const textTitle = "🌻 Hoy no tienes que tenerlo todo resuelto, estar aquí ya cuenta.";
+    const textBody = "A veces avanzar es simplemente levantarte, respirar profundo y hacer lo mejor que puedas con calma y a tu propio ritmo. No te exijas ser perfecta; hoy es un gran día para volver a elegirte, sonreír y recordar que tu esencia ya le pone luz a cualquier día gris.";
+    const textFooter = "✨ ¡Feliz primavera! Que nunca te falte la certeza de lo mucho que vales.";
+
+    function runTypewriter(elementId, fullText, speed = 25, callback) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      el.innerHTML = '';
+      let index = 0;
+      
+      const cursor = document.createElement('span');
+      cursor.className = 'typewriter-cursor';
+      el.appendChild(cursor);
+
+      function typeChar() {
+        if (index < fullText.length) {
+          cursor.before(document.createTextNode(fullText.charAt(index)));
+          index++;
+          setTimeout(typeChar, speed + (Math.random() * 12 - 4));
+        } else {
+          setTimeout(() => cursor.remove(), 1000);
+          if (callback) callback();
+        }
+      }
+      typeChar();
+    }
+
+    // Start Typewriter on Landing
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        runTypewriter('typewriter-title', textTitle, 28, () => {
+          runTypewriter('typewriter-body', textBody, 18, () => {
+            typewriterDivider.classList.remove('hidden');
+            runTypewriter('typewriter-footer', textFooter, 24, () => {
+              scrollPrompt.classList.remove('opacity-0', 'translate-y-4');
+              scrollPrompt.classList.add('opacity-100', 'translate-y-0');
+            });
+          });
+        });
+      }, 400);
+    });
+
+    // --- 3. SCROLL ENGINE (FINISHES DIRECTLY AT BLOOM) ---
+    let currentScrollRatio = 0;
+
+    function updateScrollEngine() {
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const rawRatio = Math.max(0, Math.min(1, window.scrollY / (maxScroll || 1)));
+      
+      currentScrollRatio += (rawRatio - currentScrollRatio) * 0.15;
+
+      // Stage 1: Stem Growth (0.1 to 0.5)
+      const stemProgress = Math.min(1, Math.max(0, (currentScrollRatio - 0.1) / 0.4));
+      stemPath.style.strokeDashoffset = (1 - stemProgress) * 200;
+
+      // Stage 2: Leaves (0.3 to 0.65)
+      const leafProgress = Math.min(1, Math.max(0, (currentScrollRatio - 0.3) / 0.35));
+      leafL.style.transform = `scale(${leafProgress})`;
+      leafR.style.transform = `scale(${leafProgress})`;
+
+      // Stage 3: Blooming (0.45 to 0.95)
+      const bloomProgress = Math.min(1, Math.max(0, (currentScrollRatio - 0.45) / 0.5));
+      flowerCenter.style.transform = `scale(${bloomProgress})`;
+
+      petalElements.forEach((el, index) => {
+        const petalDelay = (index % 16) * 0.02;
+        const pProgress = Math.min(1, Math.max(0, (bloomProgress - petalDelay) / (1 - petalDelay)));
+        el.style.transform = `rotate(${el.getAttribute('transform').replace(/[^0-9.]/g, '')}deg) scale(${pProgress})`;
+      });
+
+      // Bloom Swaying, Glow & Creative Button Reveal
+      if (bloomProgress >= 0.95) {
+        sunflowerSvg.classList.add('glowing');
+        flowerCaption.style.opacity = '1';
+        btnUnlockSurprise.classList.remove('hidden');
+        setTimeout(() => btnUnlockSurprise.style.opacity = '1', 50);
+      } else {
+        sunflowerSvg.classList.remove('glowing');
+        flowerCaption.style.opacity = '0';
+        btnUnlockSurprise.style.opacity = '0';
+      }
+
+      requestAnimationFrame(updateScrollEngine);
+    }
+
+    requestAnimationFrame(updateScrollEngine);
+
+    // --- 4. MODAL POPUP INTERACTION ---
+    function openModal() {
+      proposalModal.classList.remove('opacity-0', 'pointer-events-none');
+      proposalModal.classList.add('opacity-100', 'pointer-events-auto');
+      modalCard.classList.remove('scale-90');
+      modalCard.classList.add('scale-100');
+    }
+
+    function closeModal() {
+      proposalModal.classList.add('opacity-0', 'pointer-events-none');
+      proposalModal.classList.remove('opacity-100', 'pointer-events-auto');
+      modalCard.classList.add('scale-90');
+      modalCard.classList.remove('scale-100');
+    }
+
+    btnUnlockSurprise.addEventListener('click', openModal);
+    btnCloseModal.addEventListener('click', closeModal);
+    proposalModal.addEventListener('click', (e) => {
+      if (e.target === proposalModal) closeModal();
+    });
+
+    // --- 5. CONFETTI & WHATSAPP TARGETING PHONE NUMBER (63073954) ---
+    const btnYes = document.getElementById('btn-yes');
+    const btnNo = document.getElementById('btn-no');
+    const buttonsContainer = document.getElementById('buttons-container');
+    const finalMessage = document.getElementById('final-message');
+    const btnWhatsapp = document.getElementById('btn-whatsapp');
+
+    const waPhone = "59163073954";
+    const waText = encodeURIComponent("Vamos por ese cafe, Yo invito jaja");
+    btnWhatsapp.href = `https://wa.me/${waPhone}?text=${waText}`;
+
+    btnYes.addEventListener('click', () => {
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 150,
+          spread: 85,
+          origin: { y: 0.5 },
+          colors: ['#FBBF24', '#F59E0B', '#10B981', '#3B82F6', '#EC4899']
+        });
+
+        setTimeout(() => {
+          confetti({
+            particleCount: 75,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0 },
+            colors: ['#FBBF24', '#F59E0B', '#22C55E']
+          });
+          confetti({
+            particleCount: 75,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 },
+            colors: ['#FBBF24', '#F59E0B', '#22C55E']
+          });
+        }, 250);
+      }
+
+      buttonsContainer.classList.add('hidden');
+      finalMessage.classList.remove('hidden');
+    });
+
+    // --- 6. EVASIVE "NO" BUTTON GAME LOGIC (TURNS GRIS WITH "Paso del café 🙈") ---
+    const evasiveTexts = [
+      "Paso del café 🙈",
+      "Opción deshabilitada por el sistema jaja 🤖",
+      "¡Epa! Se movió solo 🏃‍♂️",
+      "¿Segura? 🌻",
+      "¡Respuesta incorrecta! 😜",
+      "Esa casilla está bloqueada 🔒"
+    ];
+    let evasiveIndex = 0;
+    let gameActive = false;
+
+    function dodgeNoButton() {
+      if (!gameActive) {
+        gameActive = true;
+        btnNo.classList.remove('bg-rose-500', 'hover:bg-rose-600', 'shadow-rose-500/30');
+        btnNo.classList.add('bg-gray-200', 'text-gray-700', 'border', 'border-gray-300', 'hover:bg-gray-300');
+      }
+
+      btnNo.innerText = evasiveTexts[evasiveIndex % evasiveTexts.length];
+      evasiveIndex++;
+
+      const containerRect = buttonsContainer.getBoundingClientRect();
+      const btnRect = btnNo.getBoundingClientRect();
+
+      const maxX = (containerRect.width - btnRect.width) / 2;
+      const maxY = 50;
+
+      const randomX = (Math.random() - 0.5) * maxX * 1.8;
+      const randomY = (Math.random() - 0.5) * maxY * 1.5;
+
+      btnNo.style.transform = `translate(${randomX}px, ${randomY}px)`;
+    }
+
+    btnNo.addEventListener('mouseover', dodgeNoButton);
+    btnNo.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      dodgeNoButton();
+    });
+    btnNo.addEventListener('click', (e) => {
+      e.preventDefault();
+      dodgeNoButton();
+    });
+
+    // --- 7. AMBIENT PARTICLES ---
+    const canvas = document.getElementById('ambient-canvas');
+    const ctx = canvas.getContext('2d');
+
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    class PetalParticle {
+      constructor() {
+        this.reset();
+      }
+
+      reset() {
+        this.x = Math.random() * width;
+        this.y = -20 - Math.random() * 50;
+        this.size = Math.random() * 8 + 6;
+        this.speedY = Math.random() * 1.2 + 0.6;
+        this.speedX = Math.random() * 0.8 - 0.4;
+        this.rotation = Math.random() * 360;
+        this.rotationSpeed = (Math.random() - 0.5) * 1.5;
+        this.opacity = Math.random() * 0.5 + 0.4;
+        this.color = Math.random() > 0.3 ? '#FBBF24' : '#FEF08A';
+      }
+
+      update() {
+        this.y += this.speedY + (currentScrollRatio * 2);
+        this.x += Math.sin(this.y * 0.01) + this.speedX;
+        this.rotation += this.rotationSpeed;
+
+        if (this.y > height + 20) {
+          this.reset();
+        }
+      }
+
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate((this.rotation * Math.PI) / 180);
+        ctx.globalAlpha = this.opacity;
+        
+        ctx.beginPath();
+        ctx.fillStyle = this.color;
+        ctx.ellipse(0, 0, this.size, this.size / 2, 0, 0, Math.PI * 2);
+        ctx.fill();
+        
+        ctx.restore();
+      }
+    }
+
+    const particles = Array.from({ length: 30 }, () => new PetalParticle());
+
+    function animateAmbient() {
+      ctx.clearRect(0, 0, width, height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animateAmbient);
+    }
+
+    animateAmbient();
+  </script>
+</body>
+</html>
