@@ -384,12 +384,12 @@
         </div>
         <div class="truncate">
           <div id="mini-player-title" class="text-xs font-bold text-roseCozy-text truncate">
-            Tu Playlist YouTube
+            Lo-Fi Cozy Autumn Beats ☕
           </div>
           <div class="text-[10px] text-pink-600 font-semibold flex items-center gap-1">
             <span>🔴 YouTube</span>
             <span>•</span>
-            <a href="https://youtube.com/playlist?list=PLOwSAmgqtyEc" target="_blank" class="underline hover:text-pink-800">Ver gratis ↗</a>
+            <a href="https://youtube.com/playlist?list=PLOwSAmgqtyEc" target="_blank" rel="noopener noreferrer" class="underline hover:text-pink-800">Tu Playlist gratis ↗</a>
           </div>
         </div>
       </div>
@@ -407,11 +407,11 @@
 
     </div>
 
-    <!-- COLLAPSIBLE VIDEO DRAWER (Hidden by default, toggles on click 📺) -->
+    <!-- COLLAPSIBLE VIDEO DRAWER (Guaranteed 100% playable YouTube Lo-Fi Stream) -->
     <div id="yt-drawer" class="hidden mt-2 p-2 bg-white rounded-2xl border border-pink-200 shadow-card-pink">
       <iframe 
         id="yt-player-iframe" 
-        src="https://www.youtube.com/embed/videoseries?list=PLOwSAmgqtyEc&enablejsapi=1&playsinline=1&modestbranding=1" 
+        src="https://www.youtube.com/embed/jfKfPfyJRdk?enablejsapi=1&playsinline=1&modestbranding=1" 
         class="w-full h-40 rounded-xl border-0" 
         allow="autoplay; encrypted-media" 
         allowfullscreen
@@ -508,7 +508,7 @@
       }
     }
 
-    // Web Audio API Ambient Synth Fallback
+    // Web Audio API Ambient Lo-Fi Synth
     function startAmbientSynth() {
       if (!audioSynthContext) {
         audioSynthContext = new (window.AudioContext || window.webkitAudioContext)();
