@@ -8,6 +8,11 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <title>Spooky Reset: Octubre con Todo 💖 | Para Ivonne</title>
   
+  <!-- PWA Manifest & App Icons -->
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/png" href="icon-192.png" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   
@@ -722,6 +727,13 @@
 
     function hideKiraModal() {
       document.getElementById('kira-modal').classList.add('hidden');
+    }
+
+    // Register PWA Service Worker for App Installation
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(e => console.log('SW registration error:', e));
+      });
     }
   </script>
 </body>
