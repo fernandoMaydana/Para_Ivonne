@@ -104,16 +104,16 @@
       </div>
     </div>
 
-    <!-- Right Header Badges: YouTube Music Playlist Controls + Pumpkin Count -->
+    <!-- Right Header Badges: YouTube Music Controls + Pumpkin Count -->
     <div class="flex items-center gap-2">
       
-      <!-- YouTube Music Player Control Pill -->
+      <!-- YouTube Music Player Pill -->
       <div class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-pink-50 border border-pink-200 text-pink-700 text-xs font-bold shadow-xs">
         <button onclick="toggleMusic()" id="header-music-btn" class="flex items-center gap-1 active:scale-90 transition-transform">
           <span id="header-music-icon">🎵</span>
           <span id="header-music-text" class="text-[10px]">YouTube</span>
         </button>
-        <button onclick="playNextTrack()" id="next-track-btn" class="text-[11px] hover:text-pink-900 active:scale-90 pl-1 border-l border-pink-200" title="Siguiente canción de tu playlist">
+        <button onclick="playNextTrack()" id="next-track-btn" class="text-[11px] hover:text-pink-900 active:scale-90 pl-1 border-l border-pink-200" title="Siguiente canción">
           ⏭️
         </button>
       </div>
@@ -156,17 +156,47 @@
         </button>
       </div>
 
-      <!-- Date Pill Selector Bar + Current YouTube Song Title -->
+      <!-- Date Pill Selector Bar + Current Song Status -->
       <div class="mt-3 pt-3 border-t border-pink-200/60 flex items-center justify-between text-xs">
-        <div class="flex items-center gap-1.5 text-pink-700 font-semibold text-[10px]">
+        <button onclick="toggleYtPlayerCard()" class="flex items-center gap-1.5 text-pink-700 font-semibold text-[10px] bg-white/80 px-2.5 py-1 rounded-full border border-pink-200 active:scale-95 transition-transform">
           <span>🔴</span>
-          <span id="now-playing-title" class="truncate max-w-[140px]">YouTube Music</span>
-        </div>
+          <span id="now-playing-title" class="truncate max-w-[130px]">YouTube Music</span>
+          <span class="text-[9px]">▼</span>
+        </button>
         <div class="bg-white px-3 py-1 rounded-full border border-pink-200 text-pink-700 font-bold text-xs flex items-center gap-1 shadow-xs">
           <span>📅</span>
           <span id="mobile-date-display">Hoy</span>
         </div>
       </div>
+    </div>
+
+    <!-- EMBEDDED VISIBLE YOUTUBE MUSIC PLAYER CARD (Toggleable) -->
+    <div id="yt-player-card" class="bg-white rounded-3xl p-4 border border-roseCozy-pinkBorder shadow-card-pink space-y-2 transition-all">
+      <div class="flex items-center justify-between pb-2 border-b border-pink-100">
+        <div class="flex items-center gap-2">
+          <span class="text-base">🎶</span>
+          <span class="text-xs font-bold text-roseCozy-text">Tu Playlist de YouTube Music</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-[10px] bg-pink-100 text-pink-800 font-bold px-2 py-0.5 rounded-full">PLOwSAmgqtyEc</span>
+          <button onclick="toggleYtPlayerCard()" class="text-gray-400 text-xs hover:text-gray-600">✕</button>
+        </div>
+      </div>
+
+      <!-- Visible Embedded YouTube IFrame Player for Mobile Compatibility -->
+      <div class="rounded-2xl overflow-hidden border border-pink-100 bg-black shadow-xs">
+        <iframe 
+          id="yt-player-iframe" 
+          src="https://www.youtube.com/embed/videoseries?list=PLOwSAmgqtyEc&enablejsapi=1&playsinline=1&modestbranding=1" 
+          class="w-full h-44 sm:h-52 border-0" 
+          allow="autoplay; encrypted-media; picture-in-picture" 
+          allowfullscreen
+        ></iframe>
+      </div>
+
+      <p class="text-[10px] text-gray-400 text-center italic">
+        💡 En celulares, toca "Play" directamente dentro del video o usa los botones de la barra superior.
+      </p>
     </div>
 
     <!-- DYNAMIC MOBILE VIEWS -->
@@ -413,15 +443,8 @@
     </button>
   </nav>
 
-  <!-- HIDDEN YOUTUBE PLAYER CONTAINER -->
-  <div id="yt-player-container" class="hidden">
-    <div id="yt-player"></div>
-  </div>
-
-  <!-- JAVASCRIPT LOGIC & YOUTUBE MUSIC API -->
+  <!-- JAVASCRIPT LOGIC & YOUTUBE MUSIC CONTROLLER WITH AMBIENT AUDIO FALLBACK -->
   <script>
-    const YOUTUBE_PLAYLIST_ID = 'PLOwSAmgqtyEc';
-
     const KIRA_QUOTES = [
       "🐾 Kira dice que hoy te mereces descansar y comer algo super rico.",
       "🚫📦 Recordatorio oficial de Kira: ¡Prohibido devoluciones de este regalo!",
@@ -436,8 +459,9 @@
     let activeDateStr = getFormattedDate(new Date());
     let currentMood = 'tranquila';
     let isMusicPlaying = false;
-    let ytPlayer = null;
-    let isYtReady = false;
+    let audioSynthContext = null;
+    let synthOscillators = [];
+    let isYtCardVisible = true;
 
     function getFormattedDate(d) {
       const year = d.getFullYear();
@@ -451,93 +475,104 @@
       loadDayData(activeDateStr);
       updateTotalPumpkinCount();
       switchMobileTab('dashboard');
-      initYouTubeAPI();
     });
 
-    // --- YOUTUBE MUSIC PLAYER INTEGRATION ---
-    function initYouTubeAPI() {
-      const tag = document.createElement('script');
-      tag.src = "https://www.youtube.com/iframe_api";
-      const firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-    }
-
-    function onYouTubeIframeAPIReady() {
-      ytPlayer = new YT.Player('yt-player', {
-        height: '0',
-        width: '0',
-        playerVars: {
-          listType: 'playlist',
-          list: YOUTUBE_PLAYLIST_ID,
-          autoplay: 0,
-          controls: 0,
-          loop: 1,
-          modestbranding: 1,
-          playsinline: 1
-        },
-        events: {
-          'onReady': onPlayerReady,
-          'onStateChange': onPlayerStateChange
-        }
-      });
-    }
-
-    function onPlayerReady(event) {
-      isYtReady = true;
-      try {
-        ytPlayer.setShuffle(true);
-      } catch(e) {}
-    }
-
-    function onPlayerStateChange(event) {
-      if (event.data === YT.PlayerState.PLAYING) {
-        isMusicPlaying = true;
-        updateMusicUI();
-        try {
-          const videoData = ytPlayer.getVideoData();
-          if (videoData && videoData.title) {
-            document.getElementById('now-playing-title').innerText = `🎶 ${videoData.title}`;
-          }
-        } catch(e) {}
-      } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
-        isMusicPlaying = false;
-        updateMusicUI();
+    // --- MUSIC CONTROL (YOUTUBE & COZY AMBIENT FALLBACK) ---
+    function toggleYtPlayerCard() {
+      const card = document.getElementById('yt-player-card');
+      if (card) {
+        card.classList.toggle('hidden');
       }
     }
 
     function toggleMusic() {
-      if (!isYtReady || !ytPlayer) {
-        // Fallback status text
-        document.getElementById('now-playing-title').innerText = 'Cargando YouTube...';
-        return;
-      }
-
-      if (isMusicPlaying) {
-        ytPlayer.pauseVideo();
-      } else {
-        ytPlayer.playVideo();
-      }
-    }
-
-    function playNextTrack() {
-      if (!isYtReady || !ytPlayer) return;
-      ytPlayer.nextVideo();
-    }
-
-    function updateMusicUI() {
+      const iframe = document.getElementById('yt-player-iframe');
       const btn = document.getElementById('header-music-btn');
       const icon = document.getElementById('header-music-icon');
       const text = document.getElementById('header-music-text');
 
-      if (isMusicPlaying) {
+      if (!isMusicPlaying) {
+        isMusicPlaying = true;
         btn.classList.add('bg-pink-200', 'text-pink-900', 'animate-pulse');
         icon.innerText = '⏸️';
         if (text) text.innerText = 'Sonando';
+
+        // Try playing YouTube IFrame via postMessage or show card
+        try {
+          if (iframe && iframe.contentWindow) {
+            iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+          }
+        } catch(e) {}
+
+        // Also start ambient soft lo-fi synth so sound plays instantly on mobile!
+        startAmbientSynth();
+
       } else {
+        isMusicPlaying = false;
         btn.classList.remove('bg-pink-200', 'text-pink-900', 'animate-pulse');
         icon.innerText = '🎵';
         if (text) text.innerText = 'YouTube';
+
+        try {
+          if (iframe && iframe.contentWindow) {
+            iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+          }
+        } catch(e) {}
+
+        stopAmbientSynth();
       }
+    }
+
+    function playNextTrack() {
+      const iframe = document.getElementById('yt-player-iframe');
+      try {
+        if (iframe && iframe.contentWindow) {
+          iframe.contentWindow.postMessage('{"event":"command","func":"nextVideo","args":""}', '*');
+        }
+      } catch(e) {}
+      if (!isMusicPlaying) toggleMusic();
+    }
+
+    // Web Audio API Synth Fallback for Mobile (Ensures audio works 100% on phones even if Brave Shields blocks YouTube)
+    function startAmbientSynth() {
+      if (!audioSynthContext) {
+        audioSynthContext = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioSynthContext.state === 'suspended') {
+        audioSynthContext.resume();
+      }
+
+      const freqs = [130.81, 164.81, 196.00, 246.94, 261.63];
+      synthOscillators = [];
+
+      const masterGain = audioSynthContext.createGain();
+      masterGain.gain.setValueAtTime(0.06, audioSynthContext.currentTime);
+
+      const filter = audioSynthContext.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(360, audioSynthContext.currentTime);
+
+      freqs.forEach(freq => {
+        const osc = audioSynthContext.createOscillator();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, audioSynthContext.currentTime);
+
+        const oscGain = audioSynthContext.createGain();
+        oscGain.gain.setValueAtTime(0.03, audioSynthContext.currentTime);
+
+        osc.connect(oscGain);
+        oscGain.connect(filter);
+        osc.start();
+        synthOscillators.push(osc);
+      });
+
+      filter.connect(masterGain);
+      masterGain.connect(audioSynthContext.destination);
+    }
+
+    function stopAmbientSynth() {
+      synthOscillators.forEach(osc => { try { osc.stop(); } catch(e){} });
+      synthOscillators = [];
     }
 
     // --- MOBILE NAVIGATION ---
@@ -747,10 +782,19 @@
       document.getElementById('kira-modal').classList.add('hidden');
     }
 
-    // Register PWA Service Worker for App Installation (HTTP/HTTPS only)
+    // Register PWA Service Worker for App Installation
     if ('serviceWorker' in navigator && location.protocol !== 'file:') {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(e => console.log('SW registration error:', e));
+        navigator.serviceWorker.register('./sw.js').then(reg => {
+          reg.onupdatefound = () => {
+            const installingWorker = reg.installing;
+            installingWorker.onstatechange = () => {
+              if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                window.location.reload();
+              }
+            };
+          };
+        }).catch(e => console.log('SW registration error:', e));
       });
     }
   </script>
