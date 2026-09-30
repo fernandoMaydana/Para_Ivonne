@@ -2,8 +2,11 @@
 <html lang="es" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>¡Feliz 21 de Septiembre, Ivonne! 🌻</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#FFF2F5" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <title>Spooky Reset: Octubre con Todo 💖 | Para Ivonne</title>
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -11,29 +14,38 @@
   <!-- Canvas Confetti CDN -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   
-  <!-- Google Fonts: Caveat, Fredoka, Poppins -->
+  <!-- Google Fonts: Quicksand & Nunito -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Fredoka:wght@400;500;600;700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
 
   <script>
     tailwind.config = {
       theme: {
         extend: {
           fontFamily: {
-            caveat: ['Caveat', 'cursive'],
-            fredoka: ['Fredoka', 'sans-serif'],
-            poppins: ['Poppins', 'sans-serif'],
+            quicksand: ['Quicksand', 'sans-serif'],
+            nunito: ['Nunito', 'sans-serif'],
           },
           colors: {
-            sunflower: {
-              100: '#FEF3C7',
-              300: '#FCD34D',
-              400: '#FBBF24',
-              500: '#F59E0B',
-              600: '#D97706',
-              700: '#B45309',
+            roseCozy: {
+              bg: '#FFF2F5',          /* Soft pink cream background */
+              card: '#FFFFFF',
+              cardSoft: '#FFF7F9',
+              text: '#4A1D34',         /* Deep cozy plum text */
+              subtext: '#834C68',      /* Warm rose subtext */
+              pinkPrimary: '#EC4899',  /* Bright rose pink */
+              pinkLight: '#FCE7F3',    /* Light pastel pink fill */
+              pinkBorder: '#FBCFE8',   /* Gentle pink border */
+              pinkDark: '#BE185D',     /* Deep pink text highlight */
+              pumpkin: '#FB923C',      /* Warm pumpkin accent */
+              pumpkinLight: '#FFEDD5',
             }
+          },
+          boxShadow: {
+            'mobile-nav': '0 -5px 25px rgba(236, 72, 153, 0.12)',
+            'card-pink': '0 8px 20px -4px rgba(236, 72, 153, 0.08)',
+            'pop-pink': '0 15px 30px -5px rgba(236, 72, 153, 0.25)',
           }
         }
       }
@@ -41,593 +53,676 @@
   </script>
 
   <style>
+    * {
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
     body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(180deg, #FFFDF7 0%, #FEF9C3 40%, #FEF08A 75%, #FDE68A 100%);
-      overflow-x: hidden;
+      font-family: 'Nunito', sans-serif;
+      background-color: #FFF2F5;
+      color: #4A1D34;
       margin: 0;
       padding: 0;
+      user-select: none;
+    }
+    h1, h2, h3, .font-title {
+      font-family: 'Quicksand', sans-serif;
+    }
+    
+    .pb-mobile-nav {
+      padding-bottom: calc(5rem + env(safe-area-inset-bottom));
     }
 
-    /* Ambient background canvas */
-    #ambient-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      z-index: 0;
+    .tab-item.active {
+      color: #BE185D;
+      font-weight: 800;
     }
-
-    /* SVG Sunflower animations */
-    .sunflower-container {
-      perspective: 1000px;
-    }
-
-    #sunflower-svg {
-      transform-origin: 150px 270px;
-    }
-
-    .stem {
-      stroke-dasharray: 200;
-      stroke-dashoffset: 200;
-      transition: stroke-dashoffset 0.1s ease-out;
-    }
-
-    .leaf-left, .leaf-right {
-      transform-origin: center;
-      transform: scale(0);
-      transition: transform 0.15s ease-out;
-    }
-
-    .petal {
-      transform-origin: 150px 150px;
-      transform: scale(0);
-      transition: transform 0.15s ease-out;
-    }
-
-    .flower-center {
-      transform-origin: 150px 150px;
-      transform: scale(0);
-      transition: transform 0.15s ease-out;
-    }
-
-    /* Continuous gentle swaying animation when bloomed */
-    @keyframes gentle-sway {
-      0%, 100% { transform: rotate(-3.5deg); }
-      50% { transform: rotate(3.5deg); }
-    }
-
-    /* Glow animation */
-    @keyframes pulse-glow {
-      0%, 100% { filter: drop-shadow(0 0 15px rgba(251, 191, 36, 0.6)); }
-      50% { filter: drop-shadow(0 0 35px rgba(251, 191, 36, 0.95)); }
-    }
-
-    .glowing {
-      animation: gentle-sway 4.5s infinite ease-in-out, pulse-glow 3.5s infinite ease-in-out;
-    }
-
-    /* Typewriter Blinking Cursor */
-    .typewriter-cursor {
-      display: inline-block;
-      width: 3px;
-      height: 1.1em;
-      background-color: #D97706;
-      margin-left: 2px;
-      vertical-align: middle;
-      animation: blink 0.8s infinite;
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
-    }
-
-    /* Floating bouncing arrow */
-    @keyframes bounce-slow {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(8px); }
-    }
-
-    .bounce-indicator {
-      animation: bounce-slow 2s infinite ease-in-out;
-    }
-
-    /* Glassmorphism subtle modal card */
-    .glass-card {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(254, 240, 138, 0.9);
-      box-shadow: 0 25px 50px -12px rgba(217, 119, 6, 0.25);
-    }
-
-    /* Pulsing CTA Button */
-    @keyframes button-pulse {
-      0%, 100% { transform: scale(1); box-shadow: 0 10px 25px -5px rgba(245, 158, 11, 0.5); }
-      50% { transform: scale(1.04); box-shadow: 0 15px 35px -5px rgba(245, 158, 11, 0.8); }
-    }
-
-    .pulse-btn {
-      animation: button-pulse 2.2s infinite ease-in-out;
-    }
-
-    /* Evasive button motion */
-    #btn-no {
-      transition: transform 0.2s ease-out, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    .tab-item.active .tab-icon-bg {
+      background-color: #FCE7F3;
+      transform: translateY(-2px);
     }
   </style>
 </head>
-<body class="relative min-h-[180vh] selection:bg-sunflower-300">
+<body class="min-h-screen bg-roseCozy-bg text-roseCozy-text pb-mobile-nav selection:bg-roseCozy-pinkLight selection:text-roseCozy-pinkDark">
 
-  <!-- Ambient Floating Petals Canvas -->
-  <canvas id="ambient-canvas"></canvas>
-
-  <!-- STAGE 1: CENTERED HANDWRITTEN LANDING POEM -->
-  <header class="relative z-20 w-full max-w-xl mx-auto px-6 pt-10 pb-6 text-center min-h-[85vh] flex flex-col justify-between items-center">
-    
-    <!-- Top Badge & Text Container -->
-    <div class="w-full flex flex-col items-center">
-      <span class="inline-block bg-sunflower-100 text-sunflower-700 text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-widest mb-6 border border-sunflower-300 shadow-sm">
-        21 de Septiembre 🌻 | Para Ivonne
-      </span>
-      
-      <!-- Centered Letter Container -->
-      <div class="space-y-5 text-center max-w-lg mx-auto w-full">
-        
-        <!-- Frase Destacada (Negrita Centrada) -->
-        <h1 id="typewriter-title" class="font-fredoka font-bold text-amber-950 text-xl sm:text-2xl md:text-3xl leading-snug min-h-[60px] drop-shadow-sm text-center"></h1>
-        
-        <!-- Cuerpo del Mensaje (Texto Fluido en Cursiva Centrado) -->
-        <p id="typewriter-body" class="font-caveat italic text-amber-900 text-2xl sm:text-3xl leading-relaxed min-h-[130px] font-medium text-center"></p>
-        
-        <!-- Línea Divisoria Suave -->
-        <div id="typewriter-divider" class="hidden my-4 border-t border-amber-300/60 w-3/4 mx-auto transition-all duration-500"></div>
-
-        <!-- Remate Final (Centrado) -->
-        <p id="typewriter-footer" class="font-fredoka font-semibold text-amber-900 text-base sm:text-lg min-h-[40px] text-center"></p>
-      
+  <!-- Mobile Top Header Bar -->
+  <header class="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-roseCozy-pinkBorder px-4 py-3 flex items-center justify-between shadow-sm">
+    <div class="flex items-center gap-2">
+      <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-pink-300 to-rose-400 text-white flex items-center justify-center text-lg font-bold shadow-sm">
+        🎃
+      </div>
+      <div>
+        <h1 class="text-base font-bold text-roseCozy-text leading-none flex items-center gap-1">
+          <span>Octubre</span>
+          <span class="text-pink-600">Pink</span>
+        </h1>
+        <p class="text-[10px] text-roseCozy-subtext font-semibold mt-0.5">Para Ivonne 💖</p>
       </div>
     </div>
 
-    <!-- Scroll Prompt Indicator -->
-    <div id="scroll-prompt" class="pt-6 text-center transition-all duration-700 opacity-0 transform translate-y-4">
-      <p class="text-xs font-semibold text-amber-900 tracking-wide uppercase mb-2">
-        Ahora desliza para cultivar tu girasol ⬇️🌻
-      </p>
-      <div class="bounce-indicator inline-block text-sunflower-600 text-2xl">
-        ⬇️
+    <!-- Right Header Badges: Random Music Player Controls + Pumpkin Count -->
+    <div class="flex items-center gap-2">
+      
+      <!-- Random Lo-Fi Music Player Bar -->
+      <div class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-pink-50 border border-pink-200 text-pink-700 text-xs font-bold shadow-xs">
+        <button onclick="toggleMusic()" id="header-music-btn" class="flex items-center gap-1 active:scale-90 transition-transform">
+          <span id="header-music-icon">🎵</span>
+          <span id="header-music-text" class="text-[10px]">Lo-Fi</span>
+        </button>
+        <button onclick="playRandomTrack()" id="next-track-btn" class="text-[11px] hover:text-pink-900 active:scale-90 pl-1 border-l border-pink-200" title="Siguiente canción aleatoria">
+          ⏭️
+        </button>
       </div>
-    </div>
 
+      <!-- Pumpkin Counter Pill -->
+      <div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-100 text-pink-800 border border-pink-200 text-xs font-extrabold shadow-sm">
+        <span>🎃</span>
+        <span id="header-pumpkin-count">0</span>
+      </div>
+
+    </div>
   </header>
 
+  <!-- MAIN MOBILE CONTENT CONTAINER -->
+  <main class="max-w-md mx-auto px-4 pt-4 space-y-4">
 
-  <!-- STAGE 2: STICKY SUNFLOWER CANVAS (SCROLL FINISHES HERE AT 100%) -->
-  <div class="sticky top-0 h-screen w-full pointer-events-none z-10 flex flex-col items-center justify-center p-4">
-    <div class="sunflower-container flex flex-col items-center justify-center">
-      
-      <svg id="sunflower-svg" class="w-64 h-64 md:w-72 md:h-72 transition-all duration-500 overflow-visible" viewBox="0 0 300 300">
-        <!-- Soil base -->
-        <ellipse cx="150" cy="275" rx="48" ry="12" fill="#D97706" opacity="0.25" />
-        
-        <!-- Stem -->
-        <path id="stem-path" class="stem" d="M150,270 Q145,210 150,150" fill="none" stroke="#22C55E" stroke-width="8" stroke-linecap="round"/>
-        
-        <!-- Leaves -->
-        <g id="leaf-l" class="leaf-left">
-          <path d="M148,220 Q105,210 115,190 Q142,190 148,220 Z" fill="#16A34A"/>
-        </g>
-        <g id="leaf-r" class="leaf-right">
-          <path d="M152,200 Q195,190 185,170 Q158,170 152,200 Z" fill="#22C55E"/>
-        </g>
-
-        <!-- Petals Layer -->
-        <g id="petals-group"></g>
-
-        <!-- Flower Center -->
-        <g id="flower-center-el" class="flower-center">
-          <circle cx="150" cy="150" r="34" fill="#78350F" />
-          <circle cx="150" cy="150" r="29" fill="#92400E" stroke="#B45309" stroke-width="2" />
-          <!-- Seed Details -->
-          <circle cx="142" cy="144" r="2" fill="#FBBF24" />
-          <circle cx="156" cy="144" r="2" fill="#FBBF24" />
-          <circle cx="148" cy="152" r="2" fill="#F59E0B" />
-          <circle cx="158" cy="154" r="1.5" fill="#FBBF24" />
-          <circle cx="138" cy="152" r="1.5" fill="#F59E0B" />
-          <circle cx="150" cy="138" r="2" fill="#F59E0B" />
-          <circle cx="144" cy="158" r="1.5" fill="#FBBF24" />
-        </g>
-      </svg>
-      
-      <!-- CAPTION: "Flores 100% naturales jaja 🌻" -->
-      <p id="flower-caption" class="text-sm text-gray-800 font-fredoka font-semibold mt-2 transition-all duration-500 opacity-0 bg-amber-100/90 px-4 py-1.5 rounded-full border border-amber-300 shadow-sm pointer-events-auto">
-        Flores 100% naturales jaja 🌻
-      </p>
-
-      <!-- CREATIVE ACTION BUTTON UNDER FLOWER -->
-      <button id="btn-unlock-surprise" class="mt-4 py-3.5 px-6 rounded-2xl bg-gradient-to-r from-sunflower-400 via-amber-400 to-sunflower-500 text-gray-900 font-fredoka font-bold text-base pulse-btn hover:scale-105 active:scale-95 transition-all duration-500 opacity-0 pointer-events-auto hidden flex items-center gap-2 border border-amber-300">
-        <span>✨ Pulsar para desbloquear tu sorpresa... 🎁</span>
-      </button>
-
-    </div>
-  </div>
-
-
-  <!-- STAGE 3: INTERACTIVE SURPRISE MODAL POPUP -->
-  <div id="proposal-modal" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-md flex items-center justify-center p-4 transition-all duration-500 opacity-0 pointer-events-none">
-    
-    <div class="glass-card rounded-3xl p-6 md:p-8 text-center max-w-md w-full relative transform scale-90 transition-all duration-500 space-y-5" id="modal-card">
-      
-      <!-- Close Button -->
-      <button id="btn-close-modal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-all">
-        ✕
-      </button>
-
-      <!-- Badge Header (☕ Sorpresa desbloqueada) -->
-      <span class="inline-block bg-amber-100 text-amber-800 text-xs font-semibold px-3.5 py-1.5 rounded-full tracking-wide uppercase border border-amber-200 shadow-sm">
-        ☕ Sorpresa desbloqueada
-      </span>
-
-      <!-- Question -->
-      <h3 class="font-fredoka text-lg sm:text-xl font-bold text-gray-800 leading-relaxed pt-1">
-        "Las flores virtuales están bonitas, pero no vienen con cafeína jaja. ¿Amerita festejar la primavera con un buen café con leche y algo rico estos días?"
-      </h3>
-
-      <!-- Action Buttons -->
-      <div id="buttons-container" class="relative min-h-[110px] w-full flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
-        <!-- Botón Verde (Solo SÍ) -->
-        <button id="btn-yes" class="w-full sm:w-1/2 py-3.5 px-4 rounded-xl bg-emerald-500 text-white font-fredoka font-bold text-lg shadow-md shadow-emerald-500/30 hover:bg-emerald-600 hover:scale-105 active:scale-95 transition-all">
-          Sí 🎉
-        </button>
-
-        <!-- Botón No Inicial Rojo (Cambia a GRIS evasivo con "Paso del café 🙈") -->
-        <button id="btn-no" class="w-full sm:w-1/2 py-3.5 px-4 rounded-xl bg-rose-500 text-white font-fredoka font-semibold text-base shadow-md shadow-rose-500/30 hover:bg-rose-600 transition-all select-none">
-          No ❌
-        </button>
-      </div>
-
-      <!-- Final WhatsApp Card -->
-      <div id="final-message" class="hidden space-y-4 pt-2">
-        <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl text-emerald-800 text-sm font-medium">
-          ¡Trato hecho! ☕🤝🎉<br/>
-          Ya arreglamos el día por chat.
+    <!-- WELCOME CARD -->
+    <div class="bg-gradient-to-br from-pink-100 via-white to-purple-100 rounded-3xl p-5 border border-roseCozy-pinkBorder shadow-card-pink relative overflow-hidden">
+      <div class="flex items-start justify-between">
+        <div>
+          <span class="inline-block px-2.5 py-0.5 rounded-full bg-white text-pink-700 text-[10px] font-bold uppercase tracking-wider mb-1.5 border border-pink-200">
+            ✨ Spooky Reset 2026
+          </span>
+          <h2 class="text-xl font-bold text-roseCozy-text">¡Hola Ivonne! 💖</h2>
+          <p class="text-xs text-roseCozy-subtext leading-relaxed mt-1">
+            Este mes es para ti: avanza sin presiones, descansa mejor y regálate tiempo de paz.
+          </p>
         </div>
         
-        <a id="btn-whatsapp" target="_blank" rel="noopener noreferrer" 
-           class="inline-flex items-center justify-center gap-2 w-full py-3.5 px-6 rounded-2xl bg-emerald-600 text-white font-fredoka font-semibold text-base shadow-lg shadow-emerald-600/30 hover:bg-emerald-700 hover:scale-[1.02] active:scale-[0.98] transition-all">
-          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
-            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
-          </svg>
-          <span>Confirmar por WhatsApp 💬</span>
-        </a>
+        <!-- Interactive Kira Avatar Floating Button -->
+        <button onclick="triggerKiraEgg()" class="flex flex-col items-center group active:scale-90 transition-transform shrink-0 ml-2" title="¡Tócame para recibir un mensaje de Kira!">
+          <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-pink-300 to-purple-300 p-0.5 shadow-md group-hover:rotate-12 transition-transform">
+            <div class="w-full h-full rounded-full bg-white flex items-center justify-center text-2xl">
+              🐶
+            </div>
+          </div>
+          <span class="text-[9px] font-bold text-pink-700 bg-white px-2 py-0.5 rounded-full border border-pink-200 mt-1 shadow-xs">
+            Kira 🐾
+          </span>
+        </button>
+      </div>
+
+      <!-- Date Pill Selector Bar + Current Song Banner -->
+      <div class="mt-3 pt-3 border-t border-pink-200/60 flex items-center justify-between text-xs">
+        <div class="flex items-center gap-1.5 text-pink-700 font-semibold text-[10px]">
+          <span>🎶</span>
+          <span id="now-playing-title" class="truncate max-w-[140px]">32 Canciones Lo-Fi</span>
+        </div>
+        <div class="bg-white px-3 py-1 rounded-full border border-pink-200 text-pink-700 font-bold text-xs flex items-center gap-1 shadow-xs">
+          <span>📅</span>
+          <span id="mobile-date-display">Hoy</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DYNAMIC MOBILE VIEWS -->
+    <div id="mobile-views">
+
+      <!-- VIEW 1: INICIO / DASHBOARD -->
+      <div id="m-view-dashboard" class="space-y-4">
+        
+        <!-- Habits Summary Card -->
+        <div class="bg-white rounded-3xl p-5 border border-roseCozy-pinkBorder shadow-card-pink">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-base font-bold text-roseCozy-text flex items-center gap-2">
+              <span>📋</span> Hábitos de Hoy
+            </h3>
+            <button onclick="switchMobileTab('habits')" class="text-xs font-bold text-pink-600 hover:underline">
+              Ver todos →
+            </button>
+          </div>
+
+          <div class="space-y-2.5" id="m-dashboard-habits-summary">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Journal Preview Card -->
+        <div class="bg-white rounded-3xl p-5 border border-roseCozy-pinkBorder shadow-card-pink">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-base font-bold text-roseCozy-text flex items-center gap-2">
+              <span>🍵</span> El Caldero Mental
+            </h3>
+            <span class="text-[10px] bg-pink-100 text-pink-800 font-bold px-2 py-0.5 rounded-full">🔒 Privado</span>
+          </div>
+          <p class="text-xs text-gray-400 mb-3">Tu rincón secreto de desahogo</p>
+          
+          <div id="m-dashboard-journal-preview" class="p-3.5 rounded-2xl bg-pink-50/50 border border-pink-100 text-xs italic text-gray-600 min-h-[70px]">
+            No has escrito nada hoy todavía... ✨
+          </div>
+
+          <button onclick="switchMobileTab('journal')" class="mt-3 w-full py-2.5 rounded-2xl bg-pink-50 text-pink-700 text-xs font-bold border border-pink-200 active:scale-98 transition-transform">
+            Escribir en El Caldero →
+          </button>
+        </div>
+
+        <!-- October Progress Mini Grid -->
+        <div class="bg-white rounded-3xl p-5 border border-roseCozy-pinkBorder shadow-card-pink">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-base font-bold text-roseCozy-text flex items-center gap-2">
+              <span>🗓️</span> Octubre en un Vistazo
+            </h3>
+            <button onclick="switchMobileTab('calendar')" class="text-xs font-bold text-pink-600 hover:underline">
+              Ver mes →
+            </button>
+          </div>
+          <div class="grid grid-cols-7 gap-1.5 text-center text-xs font-bold" id="m-dashboard-calendar-preview">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- VIEW 2: HÁBITOS CHECKLIST (FULL MOBILE VIEW) -->
+      <div id="m-view-habits" class="hidden bg-white rounded-3xl p-5 border border-roseCozy-pinkBorder shadow-card-pink space-y-3">
+        <div class="flex items-center justify-between pb-3 border-b border-pink-100">
+          <div>
+            <h2 class="text-lg font-bold text-roseCozy-text">📋 Tracker de Hábitos</h2>
+            <p class="text-xs text-roseCozy-subtext">Marca tus logros del día</p>
+          </div>
+          <span class="text-xs font-bold bg-pink-100 text-pink-800 px-2.5 py-1 rounded-full">4 Metas</span>
+        </div>
+
+        <div class="space-y-3 pt-1">
+          <!-- Habit 1 -->
+          <label class="flex items-center justify-between p-3.5 rounded-2xl border border-pink-100 bg-pink-50/40 active:bg-pink-100 transition-colors select-none cursor-pointer">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-xl">🧪</div>
+              <div>
+                <h3 class="font-bold text-gray-800 text-sm">Poción de Agua</h3>
+                <p class="text-[11px] text-gray-500">Hidratación en tu turno</p>
+              </div>
+            </div>
+            <input type="checkbox" id="m-habit-agua" class="w-7 h-7 rounded-lg text-pink-600 focus:ring-pink-400 border-pink-300" onchange="toggleHabit('agua')">
+          </label>
+
+          <!-- Habit 2 -->
+          <label class="flex items-center justify-between p-3.5 rounded-2xl border border-pink-100 bg-pink-50/40 active:bg-pink-100 transition-colors select-none cursor-pointer">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl">🍲</div>
+              <div>
+                <h3 class="font-bold text-gray-800 text-sm">Menú a mis Horas</h3>
+                <p class="text-[11px] text-gray-500">Comida sana a tiempo</p>
+              </div>
+            </div>
+            <input type="checkbox" id="m-habit-comida" class="w-7 h-7 rounded-lg text-pink-600 focus:ring-pink-400 border-pink-300" onchange="toggleHabit('comida')">
+          </label>
+
+          <!-- Habit 3 -->
+          <label class="flex items-center justify-between p-3.5 rounded-2xl border border-pink-100 bg-pink-50/40 active:bg-pink-100 transition-colors select-none cursor-pointer">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center text-xl">🐻</div>
+              <div>
+                <h3 class="font-bold text-gray-800 text-sm">Modo Oso / Descanso</h3>
+                <p class="text-[11px] text-gray-500">Dormir temprano y abrigarte</p>
+              </div>
+            </div>
+            <input type="checkbox" id="m-habit-descanso" class="w-7 h-7 rounded-lg text-pink-600 focus:ring-pink-400 border-pink-300" onchange="toggleHabit('descanso')">
+          </label>
+
+          <!-- Habit 4 -->
+          <label class="flex items-center justify-between p-3.5 rounded-2xl border border-pink-100 bg-pink-50/40 active:bg-pink-100 transition-colors select-none cursor-pointer">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl">🧘</div>
+              <div>
+                <h3 class="font-bold text-gray-800 text-sm">Respiro Diario</h3>
+                <p class="text-[11px] text-gray-500">5 min de calma total</p>
+              </div>
+            </div>
+            <input type="checkbox" id="m-habit-respiro" class="w-7 h-7 rounded-lg text-pink-600 focus:ring-pink-400 border-pink-300" onchange="toggleHabit('respiro')">
+          </label>
+        </div>
+
+        <div id="m-habits-banner" class="hidden mt-4 p-3 bg-gradient-to-r from-pink-100 to-purple-100 border border-pink-300 rounded-2xl text-center text-xs font-bold text-pink-900 animate-bounce">
+          🎉 ¡Super Ivonne! Ganaste 1 calabacita más hoy 🎃💖
+        </div>
+      </div>
+
+      <!-- VIEW 3: CALENDARIO DE OCTUBRE FULL VIEW -->
+      <div id="m-view-calendar" class="hidden bg-white rounded-3xl p-5 border border-roseCozy-pinkBorder shadow-card-pink space-y-3">
+        <div class="flex items-center justify-between pb-3 border-b border-pink-100">
+          <div>
+            <h2 class="text-lg font-bold text-roseCozy-text">🗓️ Calendario de Octubre</h2>
+            <p class="text-xs text-roseCozy-subtext">Toca un día para revisar o modificar</p>
+          </div>
+          <span class="text-xs font-bold text-pink-700 bg-pink-100 px-2.5 py-1 rounded-full">31 Días</span>
+        </div>
+
+        <div class="grid grid-cols-7 gap-1 text-center text-[10px] font-bold text-gray-400">
+          <div>Lu</div><div>Ma</div><div>Mi</div><div>Ju</div><div>Vi</div><div>Sá</div><div>Do</div>
+        </div>
+
+        <div class="grid grid-cols-7 gap-1.5 text-center text-xs font-bold" id="m-full-calendar-grid">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+
+      <!-- VIEW 4: EL CALDERO MENTAL (DIARIO PRIVADO) -->
+      <div id="m-view-journal" class="hidden bg-white rounded-3xl p-5 border border-roseCozy-pinkBorder shadow-card-pink space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-pink-100">
+          <div>
+            <h2 class="text-lg font-bold text-roseCozy-text">🍵 El Caldero Mental</h2>
+            <p class="text-xs text-roseCozy-subtext">Tu espacio 100% privado en tu teléfono</p>
+          </div>
+          <span class="text-[10px] bg-pink-100 text-pink-800 font-bold px-2 py-0.5 rounded-full border border-pink-200">
+            🔒 Local
+          </span>
+        </div>
+
+        <!-- Touch Mood Selector -->
+        <div>
+          <label class="block text-[11px] font-bold text-roseCozy-subtext uppercase tracking-wider mb-2">
+            ¿Cómo estuvo tu energía hoy?
+          </label>
+          <div class="grid grid-cols-5 gap-1.5" id="m-mood-selector">
+            <button onclick="setMood('energia')" id="m-mood-energia" class="mood-btn p-2 rounded-2xl border border-pink-100 bg-pink-50/60 active:scale-95 transition-all text-center flex flex-col items-center justify-center gap-0.5">
+              <span class="text-xl">⚡</span>
+              <span class="text-[9px] font-bold text-gray-700">Activa</span>
+            </button>
+            <button onclick="setMood('tranquila')" id="m-mood-tranquila" class="mood-btn p-2 rounded-2xl border border-pink-100 bg-pink-50/60 active:scale-95 transition-all text-center flex flex-col items-center justify-center gap-0.5">
+              <span class="text-xl">🍵</span>
+              <span class="text-[9px] font-bold text-gray-700">En Paz</span>
+            </button>
+            <button onclick="setMood('cansada')" id="m-mood-cansada" class="mood-btn p-2 rounded-2xl border border-pink-100 bg-pink-50/60 active:scale-95 transition-all text-center flex flex-col items-center justify-center gap-0.5">
+              <span class="text-xl">😴</span>
+              <span class="text-[9px] font-bold text-gray-700">Cansada</span>
+            </button>
+            <button onclick="setMood('frio')" id="m-mood-frio" class="mood-btn p-2 rounded-2xl border border-pink-100 bg-pink-50/60 active:scale-95 transition-all text-center flex flex-col items-center justify-center gap-0.5">
+              <span class="text-xl">❄️</span>
+              <span class="text-[9px] font-bold text-gray-700">Con Frío</span>
+            </button>
+            <button onclick="setMood('spooky')" id="m-mood-spooky" class="mood-btn p-2 rounded-2xl border border-pink-100 bg-pink-50/60 active:scale-95 transition-all text-center flex flex-col items-center justify-center gap-0.5">
+              <span class="text-xl">🎃</span>
+              <span class="text-[9px] font-bold text-gray-700">Spooky</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Journal Textarea -->
+        <div class="flex flex-col">
+          <textarea 
+            id="m-journal-input" 
+            placeholder="Escribe lo que quieras desahogar... Se guarda únicamente en la memoria local de tu teléfono 💖"
+            class="w-full min-h-[200px] p-4 rounded-2xl bg-pink-50/40 border border-pink-200 focus:outline-none focus:ring-2 focus:ring-pink-400 text-sm leading-relaxed text-gray-800 resize-none transition-all placeholder:text-gray-400"
+            oninput="saveJournal()"
+          ></textarea>
+
+          <div class="flex items-center justify-between mt-2 text-[11px] text-gray-400">
+            <span id="m-save-status">Auto-guardado en tu dispositivo ✨</span>
+            <span class="text-pink-600 font-semibold">100% Seguro</span>
+          </div>
+        </div>
       </div>
 
     </div>
 
+  </main>
+
+  <!-- KIRA EASTER EGG POPUP MODAL (Mobile Bottom Sheet Style) -->
+  <div id="kira-modal" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-black/40 backdrop-blur-xs">
+    <div class="bg-white w-full max-w-sm rounded-3xl p-5 border-2 border-pink-300 shadow-pop-pink space-y-3 transform transition-all animate-bounce-short">
+      <div class="flex items-center justify-between pb-2 border-b border-pink-100">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🐶</span>
+          <span class="text-xs font-extrabold text-pink-700 uppercase tracking-wider">Kira dice:</span>
+        </div>
+        <button onclick="hideKiraModal()" class="w-7 h-7 rounded-full bg-pink-100 text-pink-700 flex items-center justify-center font-bold text-xs">✕</button>
+      </div>
+
+      <p id="kira-modal-quote" class="text-sm font-bold italic text-roseCozy-text text-center py-2 leading-relaxed">
+        "¡Kira dice que hoy te mereces descansar y comer algo rico!"
+      </p>
+
+      <button onclick="hideKiraModal()" class="w-full py-2.5 rounded-2xl bg-gradient-to-r from-pink-400 to-rose-400 text-white text-xs font-extrabold shadow-sm active:scale-95 transition-transform">
+        ¡Gracias Kira! 💖🐾
+      </button>
+    </div>
   </div>
 
+  <!-- FIXED MOBILE BOTTOM NAVIGATION BAR -->
+  <nav class="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-lg border-t border-roseCozy-pinkBorder shadow-mobile-nav px-3 py-2 flex items-center justify-around">
+    <button onclick="switchMobileTab('dashboard')" id="tab-dashboard" class="tab-item active flex flex-col items-center gap-1 text-gray-400 transition-all">
+      <div class="tab-icon-bg w-10 h-7 rounded-full flex items-center justify-center text-lg transition-transform">✨</div>
+      <span class="text-[10px] font-bold">Inicio</span>
+    </button>
+    <button onclick="switchMobileTab('habits')" id="tab-habits" class="tab-item flex flex-col items-center gap-1 text-gray-400 transition-all">
+      <div class="tab-icon-bg w-10 h-7 rounded-full flex items-center justify-center text-lg transition-transform">📋</div>
+      <span class="text-[10px] font-bold">Hábitos</span>
+    </button>
+    <button onclick="switchMobileTab('calendar')" id="tab-calendar" class="tab-item flex flex-col items-center gap-1 text-gray-400 transition-all">
+      <div class="tab-icon-bg w-10 h-7 rounded-full flex items-center justify-center text-lg transition-transform">🗓️</div>
+      <span class="text-[10px] font-bold">Calendario</span>
+    </button>
+    <button onclick="switchMobileTab('journal')" id="tab-journal" class="tab-item flex flex-col items-center gap-1 text-gray-400 transition-all">
+      <div class="tab-icon-bg w-10 h-7 rounded-full flex items-center justify-center text-lg transition-transform">🍵</div>
+      <span class="text-[10px] font-bold">Diario</span>
+    </button>
+  </nav>
 
+  <!-- HTML Audio Element -->
+  <audio id="music-player" onended="playRandomTrack()" class="hidden"></audio>
+
+  <!-- JAVASCRIPT LOGIC -->
   <script>
-    // --- 1. GENERATE SVG PETALS (32 LAYERED PETALS) ---
-    const petalsGroup = document.getElementById('petals-group');
-    const totalOuterPetals = 16;
-    const totalInnerPetals = 16;
-    const petalElements = [];
-
-    // Outer Petals Layer
-    for (let i = 0; i < totalOuterPetals; i++) {
-      const angle = (360 / totalOuterPetals) * i;
-      const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
-      g.classList.add("petal");
-      
-      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-      path.setAttribute("d", "M150,150 Q136,70 150,20 Q164,70 150,150 Z");
-      path.setAttribute("fill", i % 2 === 0 ? "#FBBF24" : "#F59E0B");
-      path.setAttribute("stroke", "#D97706");
-      path.setAttribute("stroke-width", "0.8");
-      
-      g.appendChild(path);
-      g.setAttribute("transform", `rotate(${angle} 150 150)`);
-      petalsGroup.appendChild(g);
-      petalElements.push(g);
-    }
-
-    // Inner Petals Layer
-    for (let i = 0; i < totalInnerPetals; i++) {
-      const angle = ((360 / totalInnerPetals) * i) + (360 / (totalInnerPetals * 2));
-      const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
-      g.classList.add("petal");
-      
-      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-      path.setAttribute("d", "M150,150 Q140,80 150,35 Q160,80 150,150 Z");
-      path.setAttribute("fill", "#FCD34D");
-      path.setAttribute("stroke", "#F59E0B");
-      path.setAttribute("stroke-width", "0.6");
-      
-      g.appendChild(path);
-      g.setAttribute("transform", `rotate(${angle} 150 150)`);
-      petalsGroup.appendChild(g);
-      petalElements.push(g);
-    }
-
-    // SVG & DOM References
-    const stemPath = document.getElementById('stem-path');
-    const leafL = document.getElementById('leaf-l');
-    const leafR = document.getElementById('leaf-r');
-    const flowerCenter = document.getElementById('flower-center-el');
-    const sunflowerSvg = document.getElementById('sunflower-svg');
-    const flowerCaption = document.getElementById('flower-caption');
-    const btnUnlockSurprise = document.getElementById('btn-unlock-surprise');
-    const scrollPrompt = document.getElementById('scroll-prompt');
-    const proposalModal = document.getElementById('proposal-modal');
-    const modalCard = document.getElementById('modal-card');
-    const btnCloseModal = document.getElementById('btn-close-modal');
-    const typewriterDivider = document.getElementById('typewriter-divider');
-
-    // --- 2. TYPEWRITER EFFECT FOR CENTERED POEM ---
-    const textTitle = "🌻 Hoy no tienes que tenerlo todo resuelto, estar aquí ya cuenta.";
-    const textBody = "A veces avanzar es simplemente levantarte, respirar profundo y hacer lo mejor que puedas con calma y a tu propio ritmo. No te exijas ser perfecta; hoy es un gran día para volver a elegirte, sonreír y recordar que tu esencia ya le pone luz a cualquier día gris.";
-    const textFooter = "✨ ¡Feliz primavera! Que nunca te falte la certeza de lo mucho que vales.";
-
-    function runTypewriter(elementId, fullText, speed = 25, callback) {
-      const el = document.getElementById(elementId);
-      if (!el) return;
-      el.innerHTML = '';
-      let index = 0;
-      
-      const cursor = document.createElement('span');
-      cursor.className = 'typewriter-cursor';
-      el.appendChild(cursor);
-
-      function typeChar() {
-        if (index < fullText.length) {
-          cursor.before(document.createTextNode(fullText.charAt(index)));
-          index++;
-          setTimeout(typeChar, speed + (Math.random() * 12 - 4));
-        } else {
-          setTimeout(() => cursor.remove(), 1000);
-          if (callback) callback();
-        }
-      }
-      typeChar();
-    }
-
-    // Start Typewriter on Landing
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        runTypewriter('typewriter-title', textTitle, 28, () => {
-          runTypewriter('typewriter-body', textBody, 18, () => {
-            typewriterDivider.classList.remove('hidden');
-            runTypewriter('typewriter-footer', textFooter, 24, () => {
-              scrollPrompt.classList.remove('opacity-0', 'translate-y-4');
-              scrollPrompt.classList.add('opacity-100', 'translate-y-0');
-            });
-          });
-        });
-      }, 400);
-    });
-
-    // --- 3. SCROLL ENGINE (FINISHES DIRECTLY AT BLOOM) ---
-    let currentScrollRatio = 0;
-
-    function updateScrollEngine() {
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const rawRatio = Math.max(0, Math.min(1, window.scrollY / (maxScroll || 1)));
-      
-      currentScrollRatio += (rawRatio - currentScrollRatio) * 0.15;
-
-      // Stage 1: Stem Growth (0.1 to 0.5)
-      const stemProgress = Math.min(1, Math.max(0, (currentScrollRatio - 0.1) / 0.4));
-      stemPath.style.strokeDashoffset = (1 - stemProgress) * 200;
-
-      // Stage 2: Leaves (0.3 to 0.65)
-      const leafProgress = Math.min(1, Math.max(0, (currentScrollRatio - 0.3) / 0.35));
-      leafL.style.transform = `scale(${leafProgress})`;
-      leafR.style.transform = `scale(${leafProgress})`;
-
-      // Stage 3: Blooming (0.45 to 0.95)
-      const bloomProgress = Math.min(1, Math.max(0, (currentScrollRatio - 0.45) / 0.5));
-      flowerCenter.style.transform = `scale(${bloomProgress})`;
-
-      petalElements.forEach((el, index) => {
-        const petalDelay = (index % 16) * 0.02;
-        const pProgress = Math.min(1, Math.max(0, (bloomProgress - petalDelay) / (1 - petalDelay)));
-        el.style.transform = `rotate(${el.getAttribute('transform').replace(/[^0-9.]/g, '')}deg) scale(${pProgress})`;
-      });
-
-      // Bloom Swaying, Glow & Creative Button Reveal
-      if (bloomProgress >= 0.95) {
-        sunflowerSvg.classList.add('glowing');
-        flowerCaption.style.opacity = '1';
-        btnUnlockSurprise.classList.remove('hidden');
-        setTimeout(() => btnUnlockSurprise.style.opacity = '1', 50);
-      } else {
-        sunflowerSvg.classList.remove('glowing');
-        flowerCaption.style.opacity = '0';
-        btnUnlockSurprise.style.opacity = '0';
-      }
-
-      requestAnimationFrame(updateScrollEngine);
-    }
-
-    requestAnimationFrame(updateScrollEngine);
-
-    // --- 4. MODAL POPUP INTERACTION ---
-    function openModal() {
-      proposalModal.classList.remove('opacity-0', 'pointer-events-none');
-      proposalModal.classList.add('opacity-100', 'pointer-events-auto');
-      modalCard.classList.remove('scale-90');
-      modalCard.classList.add('scale-100');
-    }
-
-    function closeModal() {
-      proposalModal.classList.add('opacity-0', 'pointer-events-none');
-      proposalModal.classList.remove('opacity-100', 'pointer-events-auto');
-      modalCard.classList.add('scale-90');
-      modalCard.classList.remove('scale-100');
-    }
-
-    btnUnlockSurprise.addEventListener('click', openModal);
-    btnCloseModal.addEventListener('click', closeModal);
-    proposalModal.addEventListener('click', (e) => {
-      if (e.target === proposalModal) closeModal();
-    });
-
-    // --- 5. CONFETTI & WHATSAPP TARGETING PHONE NUMBER (63073954) ---
-    const btnYes = document.getElementById('btn-yes');
-    const btnNo = document.getElementById('btn-no');
-    const buttonsContainer = document.getElementById('buttons-container');
-    const finalMessage = document.getElementById('final-message');
-    const btnWhatsapp = document.getElementById('btn-whatsapp');
-
-    const waPhone = "59163073954";
-    const waText = encodeURIComponent("Vamos por ese cafe, Yo invito jaja");
-    btnWhatsapp.href = `https://wa.me/${waPhone}?text=${waText}`;
-
-    btnYes.addEventListener('click', () => {
-      if (typeof confetti === 'function') {
-        confetti({
-          particleCount: 150,
-          spread: 85,
-          origin: { y: 0.5 },
-          colors: ['#FBBF24', '#F59E0B', '#10B981', '#3B82F6', '#EC4899']
-        });
-
-        setTimeout(() => {
-          confetti({
-            particleCount: 75,
-            angle: 60,
-            spread: 55,
-            origin: { x: 0 },
-            colors: ['#FBBF24', '#F59E0B', '#22C55E']
-          });
-          confetti({
-            particleCount: 75,
-            angle: 120,
-            spread: 55,
-            origin: { x: 1 },
-            colors: ['#FBBF24', '#F59E0B', '#22C55E']
-          });
-        }, 250);
-      }
-
-      buttonsContainer.classList.add('hidden');
-      finalMessage.classList.remove('hidden');
-    });
-
-    // --- 6. EVASIVE "NO" BUTTON GAME LOGIC (TURNS GRIS WITH "Paso del café 🙈") ---
-    const evasiveTexts = [
-      "Paso del café 🙈",
-      "Opción deshabilitada por el sistema jaja 🤖",
-      "¡Epa! Se movió solo 🏃‍♂️",
-      "¿Segura? 🌻",
-      "¡Respuesta incorrecta! 😜",
-      "Esa casilla está bloqueada 🔒"
+    // --- 32 TRACK RANDOM PLAYLIST FROM MUSIC/ FOLDER ---
+    const PLAYLIST = [
+      'music/bg_music.mp3',
+      'music/feed_music.mp3',
+      'music/songu1.mp3', 'music/songu2.mp3', 'music/songu3.mp3', 'music/songu4.mp3', 'music/songu5.mp3',
+      'music/songu6.mp3', 'music/songu7.mp3', 'music/songu8.mp3', 'music/songu9.mp3', 'music/songu10.mp3',
+      'music/songu11.mp3', 'music/songu12.mp3', 'music/songu13.mp3', 'music/songu14.mp3', 'music/songu15.mp3',
+      'music/songu16.mp3', 'music/songu17.mp3', 'music/songu18.mp3', 'music/songu19.mp3', 'music/songu20.mp3',
+      'music/songu21.mp3', 'music/songu22.mp3', 'music/songu23.mp3', 'music/songu24.mp3', 'music/songu25.mp3',
+      'music/songu26.mp3', 'music/songu27.mp3', 'music/songu28.mp3', 'music/songu29.mp3', 'music/songu30.mp3'
     ];
-    let evasiveIndex = 0;
-    let gameActive = false;
 
-    function dodgeNoButton() {
-      if (!gameActive) {
-        gameActive = true;
-        btnNo.classList.remove('bg-rose-500', 'hover:bg-rose-600', 'shadow-rose-500/30');
-        btnNo.classList.add('bg-gray-200', 'text-gray-700', 'border', 'border-gray-300', 'hover:bg-gray-300');
-      }
+    const KIRA_QUOTES = [
+      "🐾 Kira dice que hoy te mereces descansar y comer algo super rico.",
+      "🚫📦 Recordatorio oficial de Kira: ¡Prohibido devoluciones de este regalo!",
+      "🐻🧥 ¡Abrígate como un oso! No quiero que pases nada de frío.",
+      "🧪💧 Ivonne, ¿ya te tomaste tu poción de agua de hoy? ¡Kira te vigila con amor!",
+      "✨ Kira te manda un abrazo gigante esponjoso y 1000% de buena energía.",
+      "🍵 Si el día estuvo pesado, déjalo hervir en El Caldero Mental y olvídate.",
+      "🧘‍♀️ Kira aprueba oficialmente que hoy te des 5 minutos de absoluta paz.",
+      "🎃 ¡Octubre Pink con todo, Ivonne! Vas excelente a tu propio ritmo."
+    ];
 
-      btnNo.innerText = evasiveTexts[evasiveIndex % evasiveTexts.length];
-      evasiveIndex++;
+    let activeDateStr = getFormattedDate(new Date());
+    let currentMood = 'tranquila';
+    let isMusicPlaying = false;
+    let currentTrackIndex = -1;
 
-      const containerRect = buttonsContainer.getBoundingClientRect();
-      const btnRect = btnNo.getBoundingClientRect();
-
-      const maxX = (containerRect.width - btnRect.width) / 2;
-      const maxY = 50;
-
-      const randomX = (Math.random() - 0.5) * maxX * 1.8;
-      const randomY = (Math.random() - 0.5) * maxY * 1.5;
-
-      btnNo.style.transform = `translate(${randomX}px, ${randomY}px)`;
+    function getFormattedDate(d) {
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
     }
 
-    btnNo.addEventListener('mouseover', dodgeNoButton);
-    btnNo.addEventListener('touchstart', (e) => {
-      e.preventDefault();
-      dodgeNoButton();
-    });
-    btnNo.addEventListener('click', (e) => {
-      e.preventDefault();
-      dodgeNoButton();
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCalendar();
+      loadDayData(activeDateStr);
+      updateTotalPumpkinCount();
+      switchMobileTab('dashboard');
     });
 
-    // --- 7. AMBIENT PARTICLES ---
-    const canvas = document.getElementById('ambient-canvas');
-    const ctx = canvas.getContext('2d');
+    // --- RANDOM MUSIC PLAYER LOGIC ---
+    function playRandomTrack() {
+      if (PLAYLIST.length === 0) return;
 
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
+      // Select random track different from current if possible
+      let nextIndex = Math.floor(Math.random() * PLAYLIST.length);
+      if (PLAYLIST.length > 1 && nextIndex === currentTrackIndex) {
+        nextIndex = (nextIndex + 1) % PLAYLIST.length;
+      }
+      currentTrackIndex = nextIndex;
 
-    window.addEventListener('resize', () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    });
+      const trackPath = PLAYLIST[currentTrackIndex];
+      const audioPlayer = document.getElementById('music-player');
+      audioPlayer.src = trackPath;
+      
+      const songName = trackPath.split('/').pop().replace('.mp3', '');
+      const titleElem = document.getElementById('now-playing-title');
+      if (titleElem) titleElem.innerText = `🎶 ${songName}`;
 
-    class PetalParticle {
-      constructor() {
-        this.reset();
+      isMusicPlaying = true;
+      updateMusicUI();
+
+      audioPlayer.play().catch(e => {
+        console.log("Audio play error:", e);
+      });
+    }
+
+    function toggleMusic() {
+      const audioPlayer = document.getElementById('music-player');
+
+      if (!isMusicPlaying) {
+        if (!audioPlayer.src || currentTrackIndex === -1) {
+          playRandomTrack();
+        } else {
+          isMusicPlaying = true;
+          audioPlayer.play().catch(() => playRandomTrack());
+          updateMusicUI();
+        }
+      } else {
+        isMusicPlaying = false;
+        audioPlayer.pause();
+        updateMusicUI();
+      }
+    }
+
+    function updateMusicUI() {
+      const btn = document.getElementById('header-music-btn');
+      const icon = document.getElementById('header-music-icon');
+      const text = document.getElementById('header-music-text');
+
+      if (isMusicPlaying) {
+        btn.classList.add('bg-pink-200', 'text-pink-900', 'animate-pulse');
+        icon.innerText = '⏸️';
+        if (text) text.innerText = 'Sonando';
+      } else {
+        btn.classList.remove('bg-pink-200', 'text-pink-900', 'animate-pulse');
+        icon.innerText = '🎵';
+        if (text) text.innerText = 'Lo-Fi';
+      }
+    }
+
+    // --- MOBILE NAVIGATION SWITCHER ---
+    function switchMobileTab(tabId) {
+      ['dashboard', 'habits', 'calendar', 'journal'].forEach(id => {
+        const view = document.getElementById(`m-view-${id}`);
+        const tab = document.getElementById(`tab-${id}`);
+        if (view) view.classList.add('hidden');
+        if (tab) tab.classList.remove('active');
+      });
+
+      const targetView = document.getElementById(`m-view-${tabId}`);
+      const targetTab = document.getElementById(`tab-${tabId}`);
+      if (targetView) targetView.classList.remove('hidden');
+      if (targetTab) targetTab.classList.add('active');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // --- LOCAL STORAGE DATA ---
+    function getDayStorageData(dateStr) {
+      const raw = localStorage.getItem(`spooky_data_${dateStr}`);
+      if (!raw) return { habits: { agua: false, comida: false, descanso: false, respiro: false }, journal: '', mood: 'tranquila' };
+      try { return JSON.parse(raw); } catch (e) {
+        return { habits: { agua: false, comida: false, descanso: false, respiro: false }, journal: '', mood: 'tranquila' };
+      }
+    }
+
+    function saveDayStorageData(dateStr, data) {
+      localStorage.setItem(`spooky_data_${dateStr}`, JSON.stringify(data));
+      updateTotalPumpkinCount();
+      renderCalendar();
+      updateDashboardPreviews();
+    }
+
+    function renderCalendar() {
+      const dashGrid = document.getElementById('m-dashboard-calendar-preview');
+      const fullGrid = document.getElementById('m-full-calendar-grid');
+
+      if (dashGrid) dashGrid.innerHTML = '';
+      if (fullGrid) fullGrid.innerHTML = '';
+
+      for (let day = 1; day <= 31; day++) {
+        const dayStr = `2026-10-${String(day).padStart(2, '0')}`;
+        const dayData = getDayStorageData(dayStr);
+
+        let completedCount = 0;
+        if (dayData && dayData.habits) {
+          Object.values(dayData.habits).forEach(v => { if (v) completedCount++; });
+        }
+
+        const isCompletedDay = completedCount >= 2;
+        const isActiveDay = (dayStr === activeDateStr);
+
+        let bgClasses = "bg-gray-50 border-gray-200 text-gray-600 active:bg-pink-100";
+        if (isCompletedDay) {
+          bgClasses = "bg-pink-100 border-pink-300 text-pink-800 font-bold shadow-xs";
+        }
+        if (isActiveDay) {
+          bgClasses += " ring-2 ring-pink-500 ring-offset-1";
+        }
+
+        const btnHTML = `
+          <button onclick="selectCalendarDay('${dayStr}')" class="p-2 rounded-2xl border flex flex-col items-center justify-center transition-all ${bgClasses}">
+            <span class="text-[9px] uppercase text-gray-400">Oct</span>
+            <span class="text-xs font-bold">${day}</span>
+            <span class="text-[9px] mt-0.5">${isCompletedDay ? '💖' : '•'}</span>
+          </button>
+        `;
+
+        if (dashGrid) dashGrid.innerHTML += btnHTML;
+        if (fullGrid) fullGrid.innerHTML += btnHTML;
+      }
+    }
+
+    function selectCalendarDay(dayStr) {
+      activeDateStr = dayStr;
+      const dayNum = parseInt(dayStr.split('-')[2], 10);
+      document.getElementById('mobile-date-display').innerText = `Día ${dayNum} Oct`;
+      loadDayData(dayStr);
+      renderCalendar();
+    }
+
+    function loadDayData(dateStr) {
+      const data = getDayStorageData(dateStr);
+
+      const hAgua = document.getElementById('m-habit-agua');
+      const hComida = document.getElementById('m-habit-comida');
+      const hDescanso = document.getElementById('m-habit-descanso');
+      const hRespiro = document.getElementById('m-habit-respiro');
+
+      if (hAgua) hAgua.checked = !!data.habits.agua;
+      if (hComida) hComida.checked = !!data.habits.comida;
+      if (hDescanso) hDescanso.checked = !!data.habits.descanso;
+      if (hRespiro) hRespiro.checked = !!data.habits.respiro;
+
+      const journalInput = document.getElementById('m-journal-input');
+      if (journalInput) journalInput.value = data.journal || '';
+
+      if (data.mood) setMood(data.mood);
+
+      updateDashboardPreviews();
+    }
+
+    function toggleHabit(habitKey) {
+      const data = getDayStorageData(activeDateStr);
+      const isChecked = document.getElementById(`m-habit-${habitKey}`).checked;
+      data.habits[habitKey] = isChecked;
+      saveDayStorageData(activeDateStr, data);
+    }
+
+    function updateDashboardPreviews() {
+      const data = getDayStorageData(activeDateStr);
+
+      const summaryContainer = document.getElementById('m-dashboard-habits-summary');
+      if (summaryContainer) {
+        summaryContainer.innerHTML = `
+          <div class="flex items-center justify-between p-2.5 rounded-2xl bg-pink-50/50 border border-pink-100 text-xs font-semibold">
+            <span>🧪 Poción de Agua</span>
+            <span>${data.habits.agua ? '✅ Listo' : '⏳ Pendiente'}</span>
+          </div>
+          <div class="flex items-center justify-between p-2.5 rounded-2xl bg-pink-50/50 border border-pink-100 text-xs font-semibold">
+            <span>🍲 Menú a mis Horas</span>
+            <span>${data.habits.comida ? '✅ Listo' : '⏳ Pendiente'}</span>
+          </div>
+          <div class="flex items-center justify-between p-2.5 rounded-2xl bg-pink-50/50 border border-pink-100 text-xs font-semibold">
+            <span>🐻 Modo Oso / Descanso</span>
+            <span>${data.habits.descanso ? '✅ Listo' : '⏳ Pendiente'}</span>
+          </div>
+          <div class="flex items-center justify-between p-2.5 rounded-2xl bg-pink-50/50 border border-pink-100 text-xs font-semibold">
+            <span>🧘 Respiro Diario</span>
+            <span>${data.habits.respiro ? '✅ Listo' : '⏳ Pendiente'}</span>
+          </div>
+        `;
       }
 
-      reset() {
-        this.x = Math.random() * width;
-        this.y = -20 - Math.random() * 50;
-        this.size = Math.random() * 8 + 6;
-        this.speedY = Math.random() * 1.2 + 0.6;
-        this.speedX = Math.random() * 0.8 - 0.4;
-        this.rotation = Math.random() * 360;
-        this.rotationSpeed = (Math.random() - 0.5) * 1.5;
-        this.opacity = Math.random() * 0.5 + 0.4;
-        this.color = Math.random() > 0.3 ? '#FBBF24' : '#FEF08A';
-      }
-
-      update() {
-        this.y += this.speedY + (currentScrollRatio * 2);
-        this.x += Math.sin(this.y * 0.01) + this.speedX;
-        this.rotation += this.rotationSpeed;
-
-        if (this.y > height + 20) {
-          this.reset();
+      const journalPreview = document.getElementById('m-dashboard-journal-preview');
+      if (journalPreview) {
+        if (data.journal && data.journal.trim().length > 0) {
+          journalPreview.innerText = `"${data.journal.substring(0, 90)}${data.journal.length > 90 ? '...' : ''}"`;
+        } else {
+          journalPreview.innerText = "No has escrito nada hoy todavía... ✨";
         }
       }
 
-      draw() {
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.rotate((this.rotation * Math.PI) / 180);
-        ctx.globalAlpha = this.opacity;
-        
-        ctx.beginPath();
-        ctx.fillStyle = this.color;
-        ctx.ellipse(0, 0, this.size, this.size / 2, 0, 0, Math.PI * 2);
-        ctx.fill();
-        
-        ctx.restore();
+      const banner = document.getElementById('m-habits-banner');
+      const allDone = data.habits.agua && data.habits.comida && data.habits.descanso && data.habits.respiro;
+      if (banner) {
+        if (allDone) {
+          banner.classList.remove('hidden');
+          if (typeof confetti === 'function') confetti({ particleCount: 30, spread: 50 });
+        } else {
+          banner.classList.add('hidden');
+        }
       }
     }
 
-    const particles = Array.from({ length: 30 }, () => new PetalParticle());
-
-    function animateAmbient() {
-      ctx.clearRect(0, 0, width, height);
-      particles.forEach(p => {
-        p.update();
-        p.draw();
-      });
-      requestAnimationFrame(animateAmbient);
+    function updateTotalPumpkinCount() {
+      let total = 0;
+      for (let day = 1; day <= 31; day++) {
+        const dayStr = `2026-10-${String(day).padStart(2, '0')}`;
+        const data = getDayStorageData(dayStr);
+        if (data && data.habits) {
+          Object.values(data.habits).forEach(v => { if (v) total++; });
+        }
+      }
+      document.getElementById('header-pumpkin-count').innerText = total;
     }
 
-    animateAmbient();
+    function setMood(moodKey) {
+      currentMood = moodKey;
+      document.querySelectorAll('.mood-btn').forEach(b => {
+        b.classList.remove('bg-pink-200', 'border-pink-500');
+      });
+      const targetBtn = document.getElementById(`m-mood-${moodKey}`);
+      if (targetBtn) targetBtn.classList.add('bg-pink-200', 'border-pink-500');
+
+      const data = getDayStorageData(activeDateStr);
+      data.mood = moodKey;
+      saveDayStorageData(activeDateStr, data);
+    }
+
+    let saveTimer = null;
+    function saveJournal() {
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(() => {
+        const data = getDayStorageData(activeDateStr);
+        data.journal = document.getElementById('m-journal-input').value;
+        saveDayStorageData(activeDateStr, data);
+      }, 400);
+    }
+
+    function triggerKiraEgg() {
+      const modal = document.getElementById('kira-modal');
+      const quoteText = document.getElementById('kira-modal-quote');
+      const randomQuote = KIRA_QUOTES[Math.floor(Math.random() * KIRA_QUOTES.length)];
+      
+      quoteText.innerText = `"${randomQuote}"`;
+      modal.classList.remove('hidden');
+
+      if (typeof confetti === 'function') {
+        confetti({ particleCount: 30, spread: 50, colors: ['#EC4899', '#F472B6', '#FBCFE8'] });
+      }
+    }
+
+    function hideKiraModal() {
+      document.getElementById('kira-modal').classList.add('hidden');
+    }
   </script>
 </body>
 </html>
