@@ -104,14 +104,17 @@
       </div>
     </div>
 
-    <!-- Right Header Badges: Lo-Fi Music Player Pill + Pumpkin Count -->
+    <!-- Right Header Badges: YouTube Controls + Pumpkin Count -->
     <div class="flex items-center gap-2">
       
-      <!-- Lo-Fi Music Player Control Pill -->
+      <!-- YouTube Player Control Pill -->
       <div class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-pink-50 border border-pink-200 text-pink-700 text-xs font-bold shadow-xs">
         <button onclick="toggleMusic()" id="header-music-btn" class="flex items-center gap-1 active:scale-90 transition-transform">
           <span id="header-music-icon">🎵</span>
-          <span id="header-music-text" class="text-[10px]">Música</span>
+          <span id="header-music-text" class="text-[10px]">YouTube</span>
+        </button>
+        <button onclick="playNextTrack()" id="next-track-btn" class="text-[11px] hover:text-pink-900 active:scale-90 pl-1 border-l border-pink-200" title="Siguiente canción">
+          ⏭️
         </button>
       </div>
 
@@ -153,11 +156,11 @@
         </button>
       </div>
 
-      <!-- Date Pill Selector Bar + Current Music Banner -->
+      <!-- Date Pill Selector Bar + Current Music Status -->
       <div class="mt-3 pt-3 border-t border-pink-200/60 flex items-center justify-between text-xs">
         <button onclick="toggleYtPlayerCard()" class="flex items-center gap-1.5 text-pink-700 font-semibold text-[10px] bg-white/80 px-2.5 py-1 rounded-full border border-pink-200 active:scale-95 transition-transform">
-          <span>🎧</span>
-          <span id="now-playing-title" class="truncate max-w-[130px]">Lo-Fi Autumn Beats</span>
+          <span>🎶</span>
+          <span id="now-playing-title" class="truncate max-w-[130px]">Tu Playlist YouTube</span>
           <span class="text-[9px]">▼</span>
         </button>
         <div class="bg-white px-3 py-1 rounded-full border border-pink-200 text-pink-700 font-bold text-xs flex items-center gap-1 shadow-xs">
@@ -167,36 +170,36 @@
       </div>
     </div>
 
-    <!-- REPRODUCTOR LO-FI YOUTUBE & ENLACE A YOUTUBE MUSIC CARD -->
+    <!-- REPRODUCTOR YOUTUBE ESTÁNDAR Y BOTÓN A YOUTUBE GRATIS -->
     <div id="yt-player-card" class="bg-white rounded-3xl p-4 border border-roseCozy-pinkBorder shadow-card-pink space-y-3 transition-all">
       <div class="flex items-center justify-between pb-2 border-b border-pink-100">
         <div class="flex items-center gap-2">
-          <span class="text-base">🎶</span>
-          <span class="text-xs font-bold text-roseCozy-text">Música Lo-Fi Relajante</span>
+          <span class="text-base">🔴</span>
+          <span class="text-xs font-bold text-roseCozy-text">Tu Playlist de YouTube Gratis</span>
         </div>
         <button onclick="toggleYtPlayerCard()" class="text-gray-400 text-xs hover:text-gray-600">✕</button>
       </div>
 
-      <!-- Embedded Public YouTube Lo-Fi Stream Player (Guaranteed 100% playable) -->
+      <!-- Embedded Standard YouTube Playlist Player -->
       <div class="rounded-2xl overflow-hidden border border-pink-100 bg-black shadow-xs">
         <iframe 
           id="yt-player-iframe" 
-          src="https://www.youtube.com/embed/jfKfPfyJRdk?enablejsapi=1&playsinline=1&modestbranding=1" 
+          src="https://www.youtube.com/embed/videoseries?list=PLOwSAmgqtyEc&enablejsapi=1&playsinline=1&modestbranding=1" 
           class="w-full h-44 sm:h-52 border-0" 
           allow="autoplay; encrypted-media; picture-in-picture" 
           allowfullscreen
         ></iframe>
       </div>
 
-      <!-- Direct Link to Fernando's YouTube Music Playlist -->
+      <!-- Direct Link to Standard YouTube Playlist (100% Free) -->
       <a 
-        href="https://music.youtube.com/playlist?list=PLOwSAmgqtyEc&si=VQ7nXvXoyL12RRsU" 
+        href="https://youtube.com/playlist?list=PLOwSAmgqtyEc" 
         target="_blank" 
         rel="noopener noreferrer"
-        class="flex items-center justify-center gap-2 w-full py-2.5 rounded-2xl bg-gradient-to-r from-red-500 to-pink-500 text-white font-extrabold text-xs shadow-sm hover:opacity-95 active:scale-95 transition-all"
+        class="flex items-center justify-center gap-2 w-full py-2.5 rounded-2xl bg-gradient-to-r from-red-600 to-pink-500 text-white font-extrabold text-xs shadow-sm hover:opacity-95 active:scale-95 transition-all"
       >
         <span>🔴</span>
-        <span>Abrir tu Playlist en YouTube Music ↗</span>
+        <span>Abrir en YouTube Gratis (App / Web) ↗</span>
       </a>
     </div>
 
@@ -508,7 +511,7 @@
         isMusicPlaying = false;
         btn.classList.remove('bg-pink-200', 'text-pink-900', 'animate-pulse');
         icon.innerText = '🎵';
-        if (text) text.innerText = 'Música';
+        if (text) text.innerText = 'YouTube';
 
         try {
           if (iframe && iframe.contentWindow) {
@@ -518,6 +521,16 @@
 
         stopAmbientSynth();
       }
+    }
+
+    function playNextTrack() {
+      const iframe = document.getElementById('yt-player-iframe');
+      try {
+        if (iframe && iframe.contentWindow) {
+          iframe.contentWindow.postMessage('{"event":"command","func":"nextVideo","args":""}', '*');
+        }
+      } catch(e) {}
+      if (!isMusicPlaying) toggleMusic();
     }
 
     // Web Audio API Ambient Lo-Fi Synth
