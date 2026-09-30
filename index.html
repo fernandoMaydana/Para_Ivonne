@@ -104,17 +104,14 @@
       </div>
     </div>
 
-    <!-- Right Header Badges: YouTube Music Controls + Pumpkin Count -->
+    <!-- Right Header Badges: Lo-Fi Music Player Pill + Pumpkin Count -->
     <div class="flex items-center gap-2">
       
-      <!-- YouTube Music Player Pill -->
+      <!-- Lo-Fi Music Player Control Pill -->
       <div class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-pink-50 border border-pink-200 text-pink-700 text-xs font-bold shadow-xs">
         <button onclick="toggleMusic()" id="header-music-btn" class="flex items-center gap-1 active:scale-90 transition-transform">
           <span id="header-music-icon">🎵</span>
-          <span id="header-music-text" class="text-[10px]">YouTube</span>
-        </button>
-        <button onclick="playNextTrack()" id="next-track-btn" class="text-[11px] hover:text-pink-900 active:scale-90 pl-1 border-l border-pink-200" title="Siguiente canción">
-          ⏭️
+          <span id="header-music-text" class="text-[10px]">Música</span>
         </button>
       </div>
 
@@ -156,11 +153,11 @@
         </button>
       </div>
 
-      <!-- Date Pill Selector Bar + Current Song Status -->
+      <!-- Date Pill Selector Bar + Current Music Banner -->
       <div class="mt-3 pt-3 border-t border-pink-200/60 flex items-center justify-between text-xs">
         <button onclick="toggleYtPlayerCard()" class="flex items-center gap-1.5 text-pink-700 font-semibold text-[10px] bg-white/80 px-2.5 py-1 rounded-full border border-pink-200 active:scale-95 transition-transform">
-          <span>🔴</span>
-          <span id="now-playing-title" class="truncate max-w-[130px]">YouTube Music</span>
+          <span>🎧</span>
+          <span id="now-playing-title" class="truncate max-w-[130px]">Lo-Fi Autumn Beats</span>
           <span class="text-[9px]">▼</span>
         </button>
         <div class="bg-white px-3 py-1 rounded-full border border-pink-200 text-pink-700 font-bold text-xs flex items-center gap-1 shadow-xs">
@@ -170,33 +167,37 @@
       </div>
     </div>
 
-    <!-- EMBEDDED VISIBLE YOUTUBE MUSIC PLAYER CARD (Toggleable) -->
-    <div id="yt-player-card" class="bg-white rounded-3xl p-4 border border-roseCozy-pinkBorder shadow-card-pink space-y-2 transition-all">
+    <!-- REPRODUCTOR LO-FI YOUTUBE & ENLACE A YOUTUBE MUSIC CARD -->
+    <div id="yt-player-card" class="bg-white rounded-3xl p-4 border border-roseCozy-pinkBorder shadow-card-pink space-y-3 transition-all">
       <div class="flex items-center justify-between pb-2 border-b border-pink-100">
         <div class="flex items-center gap-2">
           <span class="text-base">🎶</span>
-          <span class="text-xs font-bold text-roseCozy-text">Tu Playlist de YouTube Music</span>
+          <span class="text-xs font-bold text-roseCozy-text">Música Lo-Fi Relajante</span>
         </div>
-        <div class="flex items-center gap-2">
-          <span class="text-[10px] bg-pink-100 text-pink-800 font-bold px-2 py-0.5 rounded-full">PLOwSAmgqtyEc</span>
-          <button onclick="toggleYtPlayerCard()" class="text-gray-400 text-xs hover:text-gray-600">✕</button>
-        </div>
+        <button onclick="toggleYtPlayerCard()" class="text-gray-400 text-xs hover:text-gray-600">✕</button>
       </div>
 
-      <!-- Visible Embedded YouTube IFrame Player for Mobile Compatibility -->
+      <!-- Embedded Public YouTube Lo-Fi Stream Player (Guaranteed 100% playable) -->
       <div class="rounded-2xl overflow-hidden border border-pink-100 bg-black shadow-xs">
         <iframe 
           id="yt-player-iframe" 
-          src="https://www.youtube.com/embed/videoseries?list=PLOwSAmgqtyEc&enablejsapi=1&playsinline=1&modestbranding=1" 
+          src="https://www.youtube.com/embed/jfKfPfyJRdk?enablejsapi=1&playsinline=1&modestbranding=1" 
           class="w-full h-44 sm:h-52 border-0" 
           allow="autoplay; encrypted-media; picture-in-picture" 
           allowfullscreen
         ></iframe>
       </div>
 
-      <p class="text-[10px] text-gray-400 text-center italic">
-        💡 En celulares, toca "Play" directamente dentro del video o usa los botones de la barra superior.
-      </p>
+      <!-- Direct Link to Fernando's YouTube Music Playlist -->
+      <a 
+        href="https://music.youtube.com/playlist?list=PLOwSAmgqtyEc&si=VQ7nXvXoyL12RRsU" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        class="flex items-center justify-center gap-2 w-full py-2.5 rounded-2xl bg-gradient-to-r from-red-500 to-pink-500 text-white font-extrabold text-xs shadow-sm hover:opacity-95 active:scale-95 transition-all"
+      >
+        <span>🔴</span>
+        <span>Abrir tu Playlist en YouTube Music ↗</span>
+      </a>
     </div>
 
     <!-- DYNAMIC MOBILE VIEWS -->
@@ -443,7 +444,7 @@
     </button>
   </nav>
 
-  <!-- JAVASCRIPT LOGIC & YOUTUBE MUSIC CONTROLLER WITH AMBIENT AUDIO FALLBACK -->
+  <!-- JAVASCRIPT LOGIC & AUDIO CONTROLLER -->
   <script>
     const KIRA_QUOTES = [
       "🐾 Kira dice que hoy te mereces descansar y comer algo super rico.",
@@ -461,7 +462,6 @@
     let isMusicPlaying = false;
     let audioSynthContext = null;
     let synthOscillators = [];
-    let isYtCardVisible = true;
 
     function getFormattedDate(d) {
       const year = d.getFullYear();
@@ -477,7 +477,6 @@
       switchMobileTab('dashboard');
     });
 
-    // --- MUSIC CONTROL (YOUTUBE & COZY AMBIENT FALLBACK) ---
     function toggleYtPlayerCard() {
       const card = document.getElementById('yt-player-card');
       if (card) {
@@ -497,21 +496,19 @@
         icon.innerText = '⏸️';
         if (text) text.innerText = 'Sonando';
 
-        // Try playing YouTube IFrame via postMessage or show card
         try {
           if (iframe && iframe.contentWindow) {
             iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
           }
         } catch(e) {}
 
-        // Also start ambient soft lo-fi synth so sound plays instantly on mobile!
         startAmbientSynth();
 
       } else {
         isMusicPlaying = false;
         btn.classList.remove('bg-pink-200', 'text-pink-900', 'animate-pulse');
         icon.innerText = '🎵';
-        if (text) text.innerText = 'YouTube';
+        if (text) text.innerText = 'Música';
 
         try {
           if (iframe && iframe.contentWindow) {
@@ -523,17 +520,7 @@
       }
     }
 
-    function playNextTrack() {
-      const iframe = document.getElementById('yt-player-iframe');
-      try {
-        if (iframe && iframe.contentWindow) {
-          iframe.contentWindow.postMessage('{"event":"command","func":"nextVideo","args":""}', '*');
-        }
-      } catch(e) {}
-      if (!isMusicPlaying) toggleMusic();
-    }
-
-    // Web Audio API Synth Fallback for Mobile (Ensures audio works 100% on phones even if Brave Shields blocks YouTube)
+    // Web Audio API Ambient Lo-Fi Synth
     function startAmbientSynth() {
       if (!audioSynthContext) {
         audioSynthContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -782,7 +769,7 @@
       document.getElementById('kira-modal').classList.add('hidden');
     }
 
-    // Register PWA Service Worker for App Installation
+    // Register PWA Service Worker
     if ('serviceWorker' in navigator && location.protocol !== 'file:') {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js').then(reg => {
