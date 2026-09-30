@@ -104,16 +104,16 @@
       </div>
     </div>
 
-    <!-- Right Header Badges: Random Music Player Controls + Pumpkin Count -->
+    <!-- Right Header Badges: YouTube Music Playlist Controls + Pumpkin Count -->
     <div class="flex items-center gap-2">
       
-      <!-- Random Lo-Fi Music Player Bar -->
+      <!-- YouTube Music Player Control Pill -->
       <div class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-pink-50 border border-pink-200 text-pink-700 text-xs font-bold shadow-xs">
         <button onclick="toggleMusic()" id="header-music-btn" class="flex items-center gap-1 active:scale-90 transition-transform">
           <span id="header-music-icon">🎵</span>
-          <span id="header-music-text" class="text-[10px]">Lo-Fi</span>
+          <span id="header-music-text" class="text-[10px]">YouTube</span>
         </button>
-        <button onclick="playRandomTrack()" id="next-track-btn" class="text-[11px] hover:text-pink-900 active:scale-90 pl-1 border-l border-pink-200" title="Siguiente canción aleatoria">
+        <button onclick="playNextTrack()" id="next-track-btn" class="text-[11px] hover:text-pink-900 active:scale-90 pl-1 border-l border-pink-200" title="Siguiente canción de tu playlist">
           ⏭️
         </button>
       </div>
@@ -156,11 +156,11 @@
         </button>
       </div>
 
-      <!-- Date Pill Selector Bar + Current Song Banner -->
+      <!-- Date Pill Selector Bar + Current YouTube Song Title -->
       <div class="mt-3 pt-3 border-t border-pink-200/60 flex items-center justify-between text-xs">
         <div class="flex items-center gap-1.5 text-pink-700 font-semibold text-[10px]">
-          <span>🎶</span>
-          <span id="now-playing-title" class="truncate max-w-[140px]">32 Canciones Lo-Fi</span>
+          <span>🔴</span>
+          <span id="now-playing-title" class="truncate max-w-[140px]">YouTube Music</span>
         </div>
         <div class="bg-white px-3 py-1 rounded-full border border-pink-200 text-pink-700 font-bold text-xs flex items-center gap-1 shadow-xs">
           <span>📅</span>
@@ -413,22 +413,14 @@
     </button>
   </nav>
 
-  <!-- HTML Audio Element -->
-  <audio id="music-player" onended="playRandomTrack()" class="hidden"></audio>
+  <!-- HIDDEN YOUTUBE PLAYER CONTAINER -->
+  <div id="yt-player-container" class="hidden">
+    <div id="yt-player"></div>
+  </div>
 
-  <!-- JAVASCRIPT LOGIC -->
+  <!-- JAVASCRIPT LOGIC & YOUTUBE MUSIC API -->
   <script>
-    // --- 32 TRACK RANDOM PLAYLIST FROM MUSIC/ FOLDER ---
-    const PLAYLIST = [
-      'music/bg_music.mp3',
-      'music/feed_music.mp3',
-      'music/songu1.mp3', 'music/songu2.mp3', 'music/songu3.mp3', 'music/songu4.mp3', 'music/songu5.mp3',
-      'music/songu6.mp3', 'music/songu7.mp3', 'music/songu8.mp3', 'music/songu9.mp3', 'music/songu10.mp3',
-      'music/songu11.mp3', 'music/songu12.mp3', 'music/songu13.mp3', 'music/songu14.mp3', 'music/songu15.mp3',
-      'music/songu16.mp3', 'music/songu17.mp3', 'music/songu18.mp3', 'music/songu19.mp3', 'music/songu20.mp3',
-      'music/songu21.mp3', 'music/songu22.mp3', 'music/songu23.mp3', 'music/songu24.mp3', 'music/songu25.mp3',
-      'music/songu26.mp3', 'music/songu27.mp3', 'music/songu28.mp3', 'music/songu29.mp3', 'music/songu30.mp3'
-    ];
+    const YOUTUBE_PLAYLIST_ID = 'PLOwSAmgqtyEc';
 
     const KIRA_QUOTES = [
       "🐾 Kira dice que hoy te mereces descansar y comer algo super rico.",
@@ -444,7 +436,8 @@
     let activeDateStr = getFormattedDate(new Date());
     let currentMood = 'tranquila';
     let isMusicPlaying = false;
-    let currentTrackIndex = -1;
+    let ytPlayer = null;
+    let isYtReady = false;
 
     function getFormattedDate(d) {
       const year = d.getFullYear();
@@ -458,51 +451,77 @@
       loadDayData(activeDateStr);
       updateTotalPumpkinCount();
       switchMobileTab('dashboard');
+      initYouTubeAPI();
     });
 
-    // --- RANDOM MUSIC PLAYER LOGIC ---
-    function playRandomTrack() {
-      if (PLAYLIST.length === 0) return;
+    // --- YOUTUBE MUSIC PLAYER INTEGRATION ---
+    function initYouTubeAPI() {
+      const tag = document.createElement('script');
+      tag.src = "https://www.youtube.com/iframe_api";
+      const firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    }
 
-      // Select random track different from current if possible
-      let nextIndex = Math.floor(Math.random() * PLAYLIST.length);
-      if (PLAYLIST.length > 1 && nextIndex === currentTrackIndex) {
-        nextIndex = (nextIndex + 1) % PLAYLIST.length;
-      }
-      currentTrackIndex = nextIndex;
-
-      const trackPath = PLAYLIST[currentTrackIndex];
-      const audioPlayer = document.getElementById('music-player');
-      audioPlayer.src = trackPath;
-      
-      const songName = trackPath.split('/').pop().replace('.mp3', '');
-      const titleElem = document.getElementById('now-playing-title');
-      if (titleElem) titleElem.innerText = `🎶 ${songName}`;
-
-      isMusicPlaying = true;
-      updateMusicUI();
-
-      audioPlayer.play().catch(e => {
-        console.log("Audio play error:", e);
+    function onYouTubeIframeAPIReady() {
+      ytPlayer = new YT.Player('yt-player', {
+        height: '0',
+        width: '0',
+        playerVars: {
+          listType: 'playlist',
+          list: YOUTUBE_PLAYLIST_ID,
+          autoplay: 0,
+          controls: 0,
+          loop: 1,
+          modestbranding: 1,
+          playsinline: 1
+        },
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange
+        }
       });
     }
 
-    function toggleMusic() {
-      const audioPlayer = document.getElementById('music-player');
+    function onPlayerReady(event) {
+      isYtReady = true;
+      try {
+        ytPlayer.setShuffle(true);
+      } catch(e) {}
+    }
 
-      if (!isMusicPlaying) {
-        if (!audioPlayer.src || currentTrackIndex === -1) {
-          playRandomTrack();
-        } else {
-          isMusicPlaying = true;
-          audioPlayer.play().catch(() => playRandomTrack());
-          updateMusicUI();
-        }
-      } else {
+    function onPlayerStateChange(event) {
+      if (event.data === YT.PlayerState.PLAYING) {
+        isMusicPlaying = true;
+        updateMusicUI();
+        try {
+          const videoData = ytPlayer.getVideoData();
+          if (videoData && videoData.title) {
+            document.getElementById('now-playing-title').innerText = `🎶 ${videoData.title}`;
+          }
+        } catch(e) {}
+      } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
         isMusicPlaying = false;
-        audioPlayer.pause();
         updateMusicUI();
       }
+    }
+
+    function toggleMusic() {
+      if (!isYtReady || !ytPlayer) {
+        // Fallback status text
+        document.getElementById('now-playing-title').innerText = 'Cargando YouTube...';
+        return;
+      }
+
+      if (isMusicPlaying) {
+        ytPlayer.pauseVideo();
+      } else {
+        ytPlayer.playVideo();
+      }
+    }
+
+    function playNextTrack() {
+      if (!isYtReady || !ytPlayer) return;
+      ytPlayer.nextVideo();
     }
 
     function updateMusicUI() {
@@ -517,11 +536,11 @@
       } else {
         btn.classList.remove('bg-pink-200', 'text-pink-900', 'animate-pulse');
         icon.innerText = '🎵';
-        if (text) text.innerText = 'Lo-Fi';
+        if (text) text.innerText = 'YouTube';
       }
     }
 
-    // --- MOBILE NAVIGATION SWITCHER ---
+    // --- MOBILE NAVIGATION ---
     function switchMobileTab(tabId) {
       ['dashboard', 'habits', 'calendar', 'journal'].forEach(id => {
         const view = document.getElementById(`m-view-${id}`);
@@ -538,7 +557,7 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // --- LOCAL STORAGE DATA ---
+    // --- LOCAL STORAGE HELPERS ---
     function getDayStorageData(dateStr) {
       const raw = localStorage.getItem(`spooky_data_${dateStr}`);
       if (!raw) return { habits: { agua: false, comida: false, descanso: false, respiro: false }, journal: '', mood: 'tranquila' };
@@ -726,13 +745,6 @@
 
     function hideKiraModal() {
       document.getElementById('kira-modal').classList.add('hidden');
-    }
-
-    // Register PWA Service Worker for App Installation
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(e => console.log('SW registration error:', e));
-      });
     }
   </script>
 </body>
