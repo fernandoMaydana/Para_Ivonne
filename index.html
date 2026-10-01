@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <meta name="theme-color" content="#FFF2F5" />
+  <meta name="theme-color" content="#FAF6F7" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <title>Página en Mantenimiento 🚧✨ | Se vienen cositas</title>
+  <title>Octubre & Días Comunes 🌸 | Para Ivonne</title>
   
   <!-- PWA Manifest & App Icons -->
   <link rel="manifest" href="manifest.json" />
@@ -17,32 +17,46 @@
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- Google Fonts: Quicksand & Nunito -->
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
+  <!-- Google Fonts: Courier Prime (Typewriter), Plus Jakarta Sans, Caveat -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
   <script>
     tailwind.config = {
       theme: {
         extend: {
           fontFamily: {
-            quicksand: ['Quicksand', 'sans-serif'],
-            nunito: ['Nunito', 'sans-serif'],
+            typewriter: ['Courier Prime', 'Courier', 'monospace'],
+            sansBody: ['Plus Jakarta Sans', 'sans-serif'],
+            handwriting: ['Caveat', 'cursive'],
           },
           colors: {
-            roseCozy: {
-              bg: '#FFF2F5',
-              card: '#FFFFFF',
-              text: '#4A1D34',
-              subtext: '#834C68',
-              pinkPrimary: '#EC4899',
-              pinkLight: '#FCE7F3',
-              pinkBorder: '#FBCFE8',
-            }
+            cozyBg: '#FAF6F7',
+            cozyText: '#3B2E33',
+            cozySubtext: '#7A646C',
+            cozyBorder: '#F0E0E4',
+            roseDusty: '#C87584',
+            roseDark: '#A85363',
+            champagneSoft: '#C5B382',
+            champagneDark: '#9E8D60',
           },
           boxShadow: {
-            'pop-pink': '0 20px 35px -5px rgba(236, 72, 153, 0.22)',
+            'cozy-card': '0 15px 40px rgba(180, 140, 155, 0.1)',
+            'seal-glow': '0 0 25px rgba(200, 117, 132, 0.3)',
+            'envelope-shadow': '0 20px 45px rgba(59, 46, 51, 0.1)',
+          },
+          keyframes: {
+            floatSlow: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-6px)' },
+            }
+          },
+          animation: {
+            'float-slow': 'floatSlow 3s ease-in-out infinite',
           }
         }
       }
@@ -55,45 +69,950 @@
       touch-action: manipulation;
     }
     body {
-      font-family: 'Nunito', sans-serif;
-      background-color: #FFF2F5;
-      color: #4A1D34;
+      font-family: 'Courier Prime', monospace;
+      background-color: #FAF6F7;
+      color: #3B2E33;
       margin: 0;
       padding: 0;
-      user-select: none;
+      overflow-x: hidden;
     }
-    h1, h2, h3 {
-      font-family: 'Quicksand', sans-serif;
+    .font-typewriter {
+      font-family: 'Courier Prime', monospace;
+    }
+    .font-handwriting {
+      font-family: 'Caveat', cursive;
+    }
+
+    /* 3D ENVELOPE STYLES */
+    .perspective-1000 {
+      perspective: 1000px;
+    }
+    .envelope-wrapper {
+      position: relative;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* WAX SEAL STAMP ANIMATION */
+    @keyframes waxStamp {
+      0% { transform: scale(3) rotate(-15deg); opacity: 0; }
+      50% { transform: scale(0.9) rotate(5deg); opacity: 1; }
+      75% { transform: scale(1.05) rotate(0deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+    .animate-wax-stamp {
+      animation: waxStamp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    /* CARD PRESENTATION SLIDE TRANSITIONS */
+    .card-slide {
+      transition: opacity 0.45s ease, transform 0.45s ease;
+    }
+
+    /* NOTEBOOK PAPER PATTERN FOR POSTDATA */
+    .notebook-paper {
+      background-color: #FFFDF9;
+      background-image: linear-gradient(#F0E0E4 1px, transparent 1px);
+      background-size: 100% 1.75rem;
+      line-height: 1.75rem;
     }
   </style>
 </head>
-<body class="min-h-screen bg-roseCozy-bg flex items-center justify-center p-4 selection:bg-pink-100 selection:text-pink-800">
+<body class="min-h-screen bg-cozyBg text-cozyText selection:bg-rose-100 selection:text-rose-900 relative font-typewriter">
 
-  <!-- Ambient Background Orbs -->
-  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-40">
-    <div class="absolute -top-10 -left-10 w-72 h-72 bg-pink-200 rounded-full blur-3xl"></div>
-    <div class="absolute -bottom-10 -right-10 w-80 h-80 bg-purple-200 rounded-full blur-3xl"></div>
+  <!-- 🦋 FLOATING BUTTERFLIES BACKGROUND CANVAS -->
+  <canvas id="butterfly-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+
+  <!-- AMBIENT GLOW ORBS (SUBTLE & FORMAL) -->
+  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-25">
+    <div class="absolute -top-16 -left-16 w-96 h-96 bg-rose-200/40 rounded-full blur-3xl"></div>
+    <div class="absolute top-1/3 -right-20 w-96 h-96 bg-stone-200/40 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-20 left-1/4 w-96 h-96 bg-pink-200/30 rounded-full blur-3xl"></div>
   </div>
 
-  <!-- ULTRA CLEAN MAINTENANCE CARD -->
-  <main class="relative z-10 w-full max-w-sm bg-white rounded-3xl p-8 border-2 border-roseCozy-pinkBorder shadow-pop-pink text-center space-y-4">
-    
-    <!-- Top Icon Badge -->
-    <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-tr from-pink-200 via-purple-100 to-amber-100 border-2 border-pink-300 shadow-sm">
-      <span class="text-4xl">🚧</span>
+  <!-- AUDIO PLAYER FOR IVONNESONG.MP3 -->
+  <audio id="bg-music" src="ivonneSong.mp3" loop class="hidden"></audio>
+
+  <!-- FLOATING CONTROLLERS (Top-Right: Reiniciar & Música) -->
+  <div id="subtle-audio-control" class="fixed top-4 right-4 z-40 flex items-center gap-2">
+    <!-- BOTÓN DE REINICIO DE PRUEBAS -->
+    <button onclick="resetAppForTesting()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-cozyBorder text-cozyText text-xs font-bold font-typewriter shadow-sm active:scale-95 transition-all" title="Reiniciar aplicación para pruebas">
+      <span>🔄</span>
+      <span class="text-[10px]">Reiniciar</span>
+    </button>
+    <!-- BOTÓN DE CONTROL DE MÚSICA -->
+    <button onclick="toggleMusic()" id="music-btn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-cozyBorder text-cozyText text-xs font-bold font-typewriter shadow-sm active:scale-95 transition-all">
+      <span id="music-icon">🎵</span>
+      <span id="music-status-text" class="text-[10px]">Música</span>
+    </button>
+  </div>
+
+  <!-- MAIN APP CONTAINER (VERTICALLY & HORIZONTALLY CENTERED ON SCREEN) -->
+  <main class="min-h-screen flex flex-col justify-center items-center px-4 py-8 relative z-10 max-w-md mx-auto w-full font-typewriter">
+
+    <!-- ==========================================
+         SLIDE 0: EL SOBRE 3D INICIAL (AMPLIO, ELEGANTE Y ACOGEDOR)
+         ========================================== -->
+    <div id="slide-0" class="card-slide w-full">
+      
+      <div id="envelope-box" class="envelope-wrapper relative bg-white/95 backdrop-blur-xs rounded-3xl border-2 border-cozyBorder shadow-envelope-shadow p-7 sm:p-9 text-center overflow-visible transition-all duration-700 cursor-pointer group space-y-6" onclick="openLetterDeck()">
+        
+        <!-- Decorative Vintage Postal Stamp in Top Right -->
+        <div class="absolute top-5 right-5 w-14 h-16 bg-rose-50/60 border-2 border-dashed border-rose-200 rounded-xl flex flex-col items-center justify-center rotate-2 shadow-xs">
+          <span class="text-sm">🍂</span>
+          <span class="text-[9px] font-bold text-roseDark uppercase tracking-tighter font-typewriter mt-0.5">OCT 2026</span>
+        </div>
+
+        <!-- Top Date Badge -->
+        <div class="inline-block px-4 py-1 rounded-full bg-rose-50 border border-cozyBorder text-roseDark text-xs font-bold tracking-wider uppercase font-typewriter">
+          ✨ Octubre 2026
+        </div>
+
+        <!-- Main Title & Subtitle inside Card -->
+        <div class="space-y-2 pt-1">
+          <h1 class="text-2xl sm:text-3xl font-bold font-typewriter text-cozyText tracking-tight">
+            ¡Buenos días, Ivonne! 🌸
+          </h1>
+          <p class="text-xs sm:text-sm text-cozySubtext max-w-xs mx-auto leading-relaxed font-typewriter">
+            Un pequeño detalle pensado para acompañarte este mes...
+          </p>
+        </div>
+
+        <!-- Animated Wax Seal Badge -->
+        <div class="w-22 h-22 mx-auto my-3 relative flex items-center justify-center">
+          <div id="wax-seal" class="w-20 h-20 rounded-full bg-gradient-to-tr from-roseDark via-roseDusty to-champagneSoft border-2 border-white shadow-seal-glow flex items-center justify-center text-white text-3xl group-hover:scale-105 active:scale-95 transition-transform animate-float-slow">
+            💌
+          </div>
+        </div>
+
+        <!-- Recipient & Sender -->
+        <div class="space-y-1 font-typewriter border-t border-b border-cozyBorder py-3">
+          <h3 class="text-lg font-bold text-cozyText">Para: Ivonne 🌸</h3>
+          <p class="text-xs text-cozySubtext">De: Fernando ✨</p>
+        </div>
+
+        <!-- Large Call To Action Button -->
+        <div class="pt-2">
+          <button class="w-full py-4 rounded-2xl bg-gradient-to-r from-roseDark via-roseDusty to-champagneSoft text-white font-bold text-xs sm:text-sm shadow-md group-hover:shadow-lg active:scale-95 transition-all flex items-center justify-center gap-2 font-typewriter">
+            <span>Abrir carta</span>
+            <span class="text-base">✨</span>
+          </button>
+        </div>
+
+      </div>
+
     </div>
 
-    <!-- Title & Minimal Subtitle -->
-    <div class="space-y-2 pt-2">
-      <h1 class="text-2xl font-bold text-roseCozy-text">
-        Página en Mantenimiento
-      </h1>
-      <p class="text-base font-bold text-pink-600">
-        Se vienen cositas... 💖🎃
-      </p>
+    <!-- ==========================================
+         SLIDE 1: BLOQUE 1 - OCTUBRE & LOS DÍAS COMUNES
+         ========================================== -->
+    <div id="slide-1" class="card-slide w-full hidden opacity-0">
+      <article class="bg-white/95 backdrop-blur-xs rounded-3xl p-6 sm:p-8 border border-cozyBorder shadow-cozy-card text-center space-y-6 font-typewriter">
+        
+        <!-- Header -->
+        <div class="space-y-2 border-b border-cozyBorder pb-4">
+          <span class="inline-block text-[10px] bg-rose-50 border border-cozyBorder text-roseDark font-bold px-3 py-1 rounded-full uppercase tracking-wider font-typewriter">
+            OCTUBRE I
+          </span>
+          <h2 class="text-xl sm:text-2xl font-bold text-cozyText">
+            Octubre & Los días comunes 🍂
+          </h2>
+          <p class="text-xs text-roseDusty font-bold italic tracking-wider uppercase font-typewriter">
+            (La belleza en los días comunes)
+          </p>
+        </div>
+
+        <!-- CLEAN CENTERED TYPEWRITER POETIC TEXT -->
+        <div class="space-y-5 my-6 text-center font-typewriter">
+          <p class="text-base sm:text-lg leading-relaxed text-cozyText italic">
+            "A veces esperamos que pasen cosas extraordinarias y nos olvidamos de lo valioso que hay en lo sencillo: el café tibio en la mañana, una canción que te salva el viaje, o esa calma tan necesaria cuando por fin llegas a casa después de un turno pesado."
+          </p>
+          <p class="text-base sm:text-lg leading-relaxed text-cozyText italic">
+            "No todos los días tienen que ser perfectos ni memorables. Tampoco tenemos que estar al cien todo el tiempo. A veces, vivir también es simplemente ponerse el abrigo más cómodo, respirar hondo y recordar que descansar no es perder el tiempo, es cuidarse."
+          </p>
+        </div>
+
+        <!-- CENTERED NEXT BUTTON -->
+        <div class="pt-4 border-t border-cozyBorder flex justify-center">
+          <button onclick="goToSlide(2)" class="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-roseDusty hover:bg-roseDark text-white text-xs sm:text-sm font-bold shadow-sm hover:shadow-md active:scale-95 transition-all flex items-center justify-center gap-2 font-typewriter">
+            <span>Siguiente: Para Ivonne 🌸</span>
+            <span>➔</span>
+          </button>
+        </div>
+      </article>
+    </div>
+
+    <!-- ==========================================
+         SLIDE 2: BLOQUE 2 - PARA IVONNE 🌸
+         ========================================== -->
+    <div id="slide-2" class="card-slide w-full hidden opacity-0">
+      <article class="bg-white/95 backdrop-blur-xs rounded-3xl p-6 sm:p-8 border border-cozyBorder shadow-cozy-card text-center space-y-6 font-typewriter">
+        
+        <!-- Header -->
+        <div class="space-y-1 border-b border-cozyBorder pb-4">
+          <span class="text-xs font-handwriting text-cozySubtext font-bold text-lg">Para ti 🌸</span>
+          <h2 class="text-xl sm:text-2xl font-bold text-cozyText font-typewriter">
+            Para Ivonne 🌸
+          </h2>
+        </div>
+
+        <!-- CLEAN CENTERED DEDICATION TEXT -->
+        <div class="space-y-4 my-6 text-center font-typewriter">
+          <p class="text-sm sm:text-base leading-relaxed text-cozyText">
+            Gracias por compartir tus ratitos conmigo, incluso cuando el cansancio o el estrés del día pesan. Sé lo demandante que se pone la rutina, y por eso valoro el doble cada risa espontánea, cada mensaje entre tus cosas y la tranquilidad de hablar contigo.
+          </p>
+          <p class="text-sm sm:text-base leading-relaxed text-cozyText">
+            Este espacio es solo para acompañarte este mes: sin exigencias, sin prisas y sin que tengas que demostrarle nada a nadie. Solo para recordarte que lo estás haciendo genial y que siempre es válido bajar el ritmo y tomarte una pausa cuando lo necesites.
+          </p>
+
+          <!-- Signature Only -->
+          <div class="pt-4 border-t border-cozyBorder">
+            <div class="text-right text-3xl sm:text-4xl font-handwriting text-roseDark font-bold pt-1">
+              — Fernando ✨
+            </div>
+          </div>
+        </div>
+
+        <!-- NAV BUTTONS -->
+        <div class="pt-4 border-t border-cozyBorder flex items-center justify-between gap-3 font-typewriter">
+          <button onclick="goToSlide(1)" class="px-4 py-2.5 rounded-xl bg-rose-50/80 border border-cozyBorder text-cozyText text-xs font-bold active:scale-95 transition-all">
+            ← Anterior
+          </button>
+          <button onclick="goToSlide(3)" class="px-6 py-3 rounded-2xl bg-roseDusty hover:bg-roseDark text-white text-xs font-bold shadow-sm hover:shadow-md active:scale-95 transition-all flex items-center gap-2">
+            <span>Cápsula del Tiempo 🔒</span>
+            <span>➔</span>
+          </button>
+        </div>
+      </article>
+    </div>
+
+    <!-- ==========================================
+         SLIDE 3: INTRODUCCIÓN A LA CÁPSULA DEL TIEMPO
+         ========================================== -->
+    <div id="slide-3" class="card-slide w-full hidden opacity-0">
+      <article class="bg-white/95 backdrop-blur-xs rounded-3xl p-6 sm:p-8 border border-cozyBorder shadow-cozy-card text-center space-y-6 font-typewriter">
+        <div class="w-16 h-16 mx-auto rounded-full bg-rose-50 border border-cozyBorder text-3xl flex items-center justify-center">
+          🔒
+        </div>
+
+        <div class="space-y-3">
+          <span class="text-[10px] font-bold uppercase tracking-widest text-roseDark bg-rose-50 border border-cozyBorder px-3.5 py-1 rounded-full font-typewriter">
+            ✨ ¿QUÉ ES UNA CÁPSULA DEL TIEMPO?
+          </span>
+          
+          <h2 class="text-xl sm:text-2xl font-bold text-cozyText font-typewriter">
+            Tu Cápsula para el 31 de Octubre 🌸
+          </h2>
+
+          <p class="text-xs sm:text-sm leading-relaxed text-cozyText font-typewriter text-center">
+            Una <b>Cápsula del Tiempo</b> es como un cofre o sobre secreto digital que guardas hoy y promete no abrirse hasta una fecha especial en el futuro.
+          </p>
+
+          <p class="text-xs sm:text-sm leading-relaxed text-cozySubtext font-typewriter text-center">
+            Aquí vas a guardar cómo te sientes hoy al iniciar Octubre, lo que estás viviendo y tus deseos para ti misma. Todo se guardará <b>sellado con candado privado en tu teléfono</b> y <span class="text-roseDark font-bold">solo se abrirá el 31 de Octubre a medianoche</span>.
+          </p>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-rose-50/50 border border-cozyBorder text-left text-xs space-y-2 text-cozyText font-typewriter">
+          <p class="font-bold text-roseDark flex items-center gap-1.5">
+            <span>✨</span> ¿Cómo la vas a crear hoy? (3 Pasos sencillos):
+          </p>
+          <ul class="space-y-1.5 text-cozySubtext">
+            <li class="flex items-start gap-2">
+              <span class="text-roseDusty font-bold">1.</span>
+              <span><b>Check-in Secreto:</b> 3 preguntas rápidas de 1 toque.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-roseDusty font-bold">2.</span>
+              <span><b>Las 3 Frases Guiadas:</b> Promesas y recordatorios para ti.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-roseDusty font-bold">3.</span>
+              <span><b>Ritual de Sellado:</b> Cerrar el sobre con candado y cuenta regresiva al 31.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="pt-2 flex flex-col gap-2 font-typewriter">
+          <button onclick="goToSlide(4)" class="w-full py-3.5 rounded-2xl bg-roseDusty hover:bg-roseDark text-white font-bold text-xs sm:text-sm shadow-sm hover:shadow-md active:scale-95 transition-all flex items-center justify-center gap-2">
+            <span>¡Crear mi Cápsula de Octubre! ✨</span>
+            <span>➔</span>
+          </button>
+          <button onclick="goToSlide(2)" class="text-xs text-cozySubtext font-bold py-1">
+            ← Volver a la carta
+          </button>
+        </div>
+      </article>
+    </div>
+
+    <!-- ==========================================
+         SLIDE 4: PASO 1 - EL CHECK-IN SECRETO
+         ========================================== -->
+    <div id="slide-4" class="card-slide w-full hidden opacity-0">
+      <article class="bg-white/95 backdrop-blur-xs rounded-3xl p-6 sm:p-7 border border-cozyBorder shadow-cozy-card space-y-6 font-typewriter">
+        
+        <div class="flex items-center justify-between border-b border-cozyBorder pb-3">
+          <div>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-roseDusty">Paso 1 de 3 💭</span>
+            <h3 class="text-lg font-bold text-cozyText">El Check-in Secreto</h3>
+          </div>
+          <span class="text-xs font-bold text-cozySubtext">1 de 3</span>
+        </div>
+
+        <!-- Q1: ¿Cómo llega Ivonne al 1 de Octubre? -->
+        <div class="space-y-2.5">
+          <label class="text-xs font-bold text-cozyText block">
+            1. ¿Cómo llega Ivonne al 1 de Octubre?
+          </label>
+          <div class="space-y-2">
+            <button onclick="selectCheckInQ1('😴 En modo supervivencia pero con actitud')" class="q1-btn w-full p-3 rounded-2xl border border-cozyBorder bg-rose-50/30 text-left text-xs font-typewriter text-cozyText hover:bg-rose-100/50 active:scale-95 transition-all flex items-center gap-2.5">
+              <span>😴</span>
+              <span>"En modo supervivencia pero con actitud"</span>
+            </button>
+            <button onclick="selectCheckInQ1('☕ A base de café y fe')" class="q1-btn w-full p-3 rounded-2xl border border-cozyBorder bg-rose-50/30 text-left text-xs font-typewriter text-cozyText hover:bg-rose-100/50 active:scale-95 transition-all flex items-center gap-2.5">
+              <span>☕</span>
+              <span>"A base de café y fe"</span>
+            </button>
+            <button onclick="selectCheckInQ1('✨ Tranquila y lista para lo que venga')" class="q1-btn w-full p-3 rounded-2xl border border-cozyBorder bg-rose-50/30 text-left text-xs font-typewriter text-cozyText hover:bg-rose-100/50 active:scale-95 transition-all flex items-center gap-2.5">
+              <span>✨</span>
+              <span>"Tranquila y lista para lo que venga"</span>
+            </button>
+            <input 
+              type="text" 
+              id="q1-custom-input" 
+              placeholder="✍️ O escribe el tuyo en 1 línea..." 
+              class="w-full p-3 rounded-2xl bg-white border border-cozyBorder text-xs font-typewriter text-cozyText placeholder:text-cozySubtext/60 focus:outline-none focus:ring-1 focus:ring-roseDusty"
+              oninput="selectCheckInQ1Custom()"
+            />
+          </div>
+        </div>
+
+        <!-- Q2: Un deseo exprés para este mes -->
+        <div class="space-y-2.5 pt-2 border-t border-cozyBorder">
+          <label class="text-xs font-bold text-cozyText block">
+            2. Un deseo exprés para este mes:
+          </label>
+          <div class="space-y-2">
+            <button onclick="selectCheckInQ2('💆‍♀️ Más horas de sueño y menos estrés')" class="q2-btn w-full p-3 rounded-2xl border border-cozyBorder bg-rose-50/30 text-left text-xs font-typewriter text-cozyText hover:bg-rose-100/50 active:scale-95 transition-all flex items-center gap-2.5">
+              <span>💆‍♀️</span>
+              <span>"Más horas de sueño y menos estrés"</span>
+            </button>
+            <button onclick="selectCheckInQ2('🍰 Comer muchas cosas ricas sin culpa')" class="q2-btn w-full p-3 rounded-2xl border border-cozyBorder bg-rose-50/30 text-left text-xs font-typewriter text-cozyText hover:bg-rose-100/50 active:scale-95 transition-all flex items-center gap-2.5">
+              <span>🍰</span>
+              <span>"Comer muchas cosas ricas sin culpa"</span>
+            </button>
+            <button onclick="selectCheckInQ2('✈️ Una escapada o un momento de paz real')" class="q2-btn w-full p-3 rounded-2xl border border-cozyBorder bg-rose-50/30 text-left text-xs font-typewriter text-cozyText hover:bg-rose-100/50 active:scale-95 transition-all flex items-center gap-2.5">
+              <span>✈️</span>
+              <span>"Una escapada o un momento de paz real"</span>
+            </button>
+            <input 
+              type="text" 
+              id="q2-custom-input" 
+              placeholder="✍️ O escribe el tuyo en 1 línea..." 
+              class="w-full p-3 rounded-2xl bg-white border border-cozyBorder text-xs font-typewriter text-cozyText placeholder:text-cozySubtext/60 focus:outline-none focus:ring-1 focus:ring-roseDusty"
+              oninput="selectCheckInQ2Custom()"
+            />
+          </div>
+        </div>
+
+        <!-- NAV BUTTONS -->
+        <div class="flex justify-between items-center pt-3 border-t border-cozyBorder">
+          <button onclick="goToSlide(3)" class="px-4 py-2.5 rounded-xl bg-rose-50/80 border border-cozyBorder text-cozyText text-xs font-bold active:scale-95 transition-all">
+            ← Anterior
+          </button>
+          <button onclick="goToSlide(5)" class="px-5 py-2.5 rounded-2xl bg-roseDusty hover:bg-roseDark text-white text-xs font-bold shadow-xs active:scale-95 transition-all flex items-center gap-1.5">
+            <span>Siguiente: Tus 3 Frases</span>
+            <span>➔</span>
+          </button>
+        </div>
+
+      </article>
+    </div>
+
+    <!-- ==========================================
+         SLIDE 5: PASO 2 - LAS 3 FRASES GUIADAS
+         ========================================== -->
+    <div id="slide-5" class="card-slide w-full hidden opacity-0">
+      <article class="bg-white/95 backdrop-blur-xs rounded-3xl p-6 sm:p-7 border border-cozyBorder shadow-cozy-card space-y-5 font-typewriter">
+        
+        <div class="flex items-center justify-between border-b border-cozyBorder pb-3">
+          <div>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-roseDusty">Paso 2 de 3 🌷</span>
+            <h3 class="text-lg font-bold text-cozyText">Las 3 Frases Guiadas</h3>
+          </div>
+          <span class="text-xs font-bold text-cozySubtext">2 de 3</span>
+        </div>
+
+        <!-- Prompt 1 -->
+        <div class="space-y-1.5">
+          <label class="text-xs font-bold text-cozyText flex items-center gap-1.5">
+            <span>💌</span> 1. "Una cosa de la que hoy me siento orgullosa:"
+          </label>
+          <textarea 
+            id="prompt-1-text"
+            placeholder="ej. Haber aguantado una semana pesada y seguir sonriendo..."
+            class="w-full h-24 p-3.5 rounded-2xl bg-white border border-cozyBorder text-xs font-typewriter text-cozyText placeholder:text-cozySubtext/50 focus:outline-none focus:ring-1 focus:ring-roseDusty resize-none"
+            oninput="saveCapsuleData()"
+          ></textarea>
+        </div>
+
+        <!-- Prompt 2 -->
+        <div class="space-y-1.5">
+          <label class="text-xs font-bold text-cozyText flex items-center gap-1.5">
+            <span>🌷</span> 2. "Algo que prometo no tomarme tan en serio este mes:"
+          </label>
+          <textarea 
+            id="prompt-2-text"
+            placeholder="ej. El trabajo, los comentarios de la gente, los planes que cambian..."
+            class="w-full h-24 p-3.5 rounded-2xl bg-white border border-cozyBorder text-xs font-typewriter text-cozyText placeholder:text-cozySubtext/50 focus:outline-none focus:ring-1 focus:ring-roseDusty resize-none"
+            oninput="saveCapsuleData()"
+          ></textarea>
+        </div>
+
+        <!-- Prompt 3 -->
+        <div class="space-y-1.5">
+          <label class="text-xs font-bold text-cozyText flex items-center gap-1.5">
+            <span>🎁</span> 3. "Un recordatorio para mi 'yo' del 31 de Octubre:"
+          </label>
+          <textarea 
+            id="prompt-3-text"
+            placeholder="ej. Acuérdate de que sobreviviste y de que mereces descansar..."
+            class="w-full h-24 p-3.5 rounded-2xl bg-white border border-cozyBorder text-xs font-typewriter text-cozyText placeholder:text-cozySubtext/50 focus:outline-none focus:ring-1 focus:ring-roseDusty resize-none"
+            oninput="saveCapsuleData()"
+          ></textarea>
+        </div>
+
+        <!-- NAV BUTTONS -->
+        <div class="flex justify-between items-center pt-3 border-t border-cozyBorder">
+          <button onclick="goToSlide(4)" class="px-4 py-2.5 rounded-xl bg-rose-50/80 border border-cozyBorder text-cozyText text-xs font-bold active:scale-95 transition-all">
+            ← Anterior
+          </button>
+          <button onclick="goToSlide(6)" class="px-5 py-2.5 rounded-2xl bg-roseDusty hover:bg-roseDark text-white text-xs font-bold shadow-xs active:scale-95 transition-all flex items-center gap-1.5">
+            <span>Siguiente: Postdata</span>
+            <span>➔</span>
+          </button>
+        </div>
+
+      </article>
+    </div>
+
+    <!-- ==========================================
+         SLIDE 6: PASO 3 - POSTDATA LIBRE & RITUAL DE SELLADO
+         ========================================== -->
+    <div id="slide-6" class="card-slide w-full hidden opacity-0">
+      <article class="bg-white/95 backdrop-blur-xs rounded-3xl p-6 sm:p-7 border border-cozyBorder shadow-cozy-card space-y-5 font-typewriter">
+        
+        <div class="flex items-center justify-between border-b border-cozyBorder pb-3">
+          <div>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-roseDusty">Paso 3 de 3 📝</span>
+            <h3 class="text-lg font-bold text-cozyText">Postdata Libre & Sello</h3>
+          </div>
+          <span class="text-xs font-bold text-cozySubtext">3 de 3</span>
+        </div>
+
+        <div class="space-y-2">
+          <label class="text-xs font-bold text-cozyText block">
+            Si quieres agregar algo más para tu yo del futuro, déjalo aquí abajo... (Opcional)
+          </label>
+          <div class="p-1 rounded-2xl border border-cozyBorder bg-white">
+            <textarea 
+              id="prompt-postdata-text"
+              placeholder="Un último pensamiento o unas líneas libres para cerrar tu sobre..."
+              class="w-full h-32 p-4 rounded-xl notebook-paper text-sm text-cozyText placeholder:text-cozySubtext/50 focus:outline-none resize-none font-typewriter"
+              oninput="saveCapsuleData()"
+            ></textarea>
+          </div>
+        </div>
+
+        <!-- RITUAL DE SELLADO CANDADO BUTTON -->
+        <div class="pt-3">
+          <button 
+            onclick="sealCapsuleRitual()" 
+            id="seal-ritual-btn"
+            class="w-full py-4 rounded-2xl bg-gradient-to-r from-roseDark via-roseDusty to-champagneSoft text-white font-bold text-xs sm:text-sm shadow-sm hover:shadow-md active:scale-95 transition-all flex items-center justify-center gap-2 font-typewriter"
+          >
+            <span>« Sellar Cápsula del Tiempo 🔒💌 »</span>
+          </button>
+        </div>
+
+        <div class="flex justify-start pt-2">
+          <button onclick="goToSlide(5)" class="px-4 py-2.5 rounded-xl bg-rose-50/80 border border-cozyBorder text-cozyText text-xs font-bold active:scale-95 transition-all">
+            ← Anterior
+          </button>
+        </div>
+
+      </article>
+    </div>
+
+    <!-- ==========================================
+         SLIDE 7: CÁPSULA SELLADA 🕯️✨ & CUENTA REGRESIVA
+         ========================================== -->
+    <div id="slide-7" class="card-slide w-full hidden opacity-0 space-y-6 font-typewriter">
+      
+      <!-- CONFIRMATION & LOCK CARD -->
+      <article class="bg-white/95 backdrop-blur-xs rounded-3xl p-6 sm:p-8 border border-cozyBorder shadow-cozy-card text-center space-y-6 relative">
+        
+        <!-- Animated Lock Seal Badge -->
+        <div class="w-16 h-16 mx-auto rounded-full bg-gradient-to-tr from-roseDark via-roseDusty to-champagneSoft border-2 border-white/90 shadow-seal-glow flex items-center justify-center text-white text-3xl animate-wax-stamp">
+          🔒
+        </div>
+
+        <div class="space-y-2">
+          <h3 class="text-xl sm:text-2xl font-bold font-typewriter text-cozyText">
+            ¡Cápsula Sellada con Candado! 🕯️✨
+          </h3>
+          <p class="text-xs sm:text-sm text-cozySubtext leading-relaxed max-w-xs mx-auto font-typewriter">
+            «Guardado con candado en este teléfono. No se podrá leer hasta el 31 de Octubre a las 00:00.»
+          </p>
+        </div>
+
+        <!-- COUNTDOWN TIMER -->
+        <div class="pt-4 border-t border-cozyBorder space-y-4">
+          <span class="inline-block text-[10px] font-bold tracking-widest text-roseDark bg-rose-50 border border-cozyBorder px-3.5 py-1 rounded-full font-typewriter">
+            🔒 CUENTA REGRESIVA ACTIVA
+          </span>
+
+          <div class="grid grid-cols-4 gap-2 max-w-xs mx-auto text-center font-typewriter">
+            <div class="p-2.5 rounded-2xl bg-rose-50/40 border border-cozyBorder shadow-xs">
+              <span id="cd-days" class="block text-lg font-bold text-cozyText font-typewriter">00</span>
+              <span class="text-[9px] font-bold text-cozySubtext uppercase">Días</span>
+            </div>
+            <div class="p-2.5 rounded-2xl bg-rose-50/40 border border-cozyBorder shadow-xs">
+              <span id="cd-hours" class="block text-lg font-bold text-cozyText font-typewriter">00</span>
+              <span class="text-[9px] font-bold text-cozySubtext uppercase">Horas</span>
+            </div>
+            <div class="p-2.5 rounded-2xl bg-rose-50/40 border border-cozyBorder shadow-xs">
+              <span id="cd-mins" class="block text-lg font-bold text-cozyText font-typewriter">00</span>
+              <span class="text-[9px] font-bold text-cozySubtext uppercase">Min</span>
+            </div>
+            <div class="p-2.5 rounded-2xl bg-rose-50/40 border border-cozyBorder shadow-xs">
+              <span id="cd-secs" class="block text-lg font-bold text-cozyText font-typewriter">00</span>
+              <span class="text-[9px] font-bold text-cozySubtext uppercase">Seg</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PREVIEW SUMMARY -->
+        <div class="p-4 bg-rose-50/30 rounded-2xl border border-cozyBorder text-left text-xs text-cozyText space-y-1.5 font-typewriter">
+          <p id="summary-q1" class="font-bold text-roseDark"></p>
+          <p id="summary-q2" class="text-cozySubtext"></p>
+        </div>
+
+      </article>
+
     </div>
 
   </main>
 
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    /* ==========================================
+       1. FLOATING BUTTERFLIES CANVAS & TAP EFFECT
+       ========================================== */
+    const canvas = document.getElementById('butterfly-canvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    class Butterfly {
+      constructor(isTap = false, x = 0, y = 0) {
+        this.isTap = isTap;
+        this.x = isTap ? x : Math.random() * width;
+        this.y = isTap ? y : Math.random() * height;
+        this.size = isTap ? (12 + Math.random() * 6) : (18 + Math.random() * 12);
+        this.vx = isTap ? (Math.random() - 0.5) * 1.5 : (Math.random() * 0.7 + 0.2);
+        this.vy = isTap ? (-1.5 - Math.random() * 1.5) : (Math.random() - 0.5) * 0.4;
+        this.wingAngle = Math.random() * Math.PI * 2;
+        this.wingSpeed = 0.12 + Math.random() * 0.08;
+        this.alpha = isTap ? 0.85 : (0.3 + Math.random() * 0.2);
+        this.color = Math.random() > 0.4 ? '#C87584' : '#C5B382';
+      }
+
+      update() {
+        this.wingAngle += this.wingSpeed;
+        this.x += this.vx;
+        this.y += this.vy;
+
+        if (this.isTap) {
+          this.alpha -= 0.012;
+        } else {
+          if (this.x > width + 40) this.x = -40;
+          if (this.x < -40) this.x = width + 40;
+          if (this.y > height + 40) this.y = -40;
+          if (this.y < -40) this.y = height + 40;
+        }
+      }
+
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.globalAlpha = Math.max(0, this.alpha);
+        
+        const flapScale = Math.sin(this.wingAngle);
+        ctx.fillStyle = this.color;
+
+        ctx.beginPath();
+        ctx.ellipse(-this.size * 0.4, 0, this.size * 0.6 * Math.abs(flapScale), this.size * 0.4, Math.PI / 4, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.ellipse(this.size * 0.4, 0, this.size * 0.6 * Math.abs(flapScale), this.size * 0.4, -Math.PI / 4, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#3B2E33';
+        ctx.beginPath();
+        ctx.ellipse(0, 0, 1.2, this.size * 0.3, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.restore();
+      }
+    }
+
+    const butterflies = Array.from({ length: 6 }, () => new Butterfly());
+    const tapButterflies = [];
+
+    function animateCanvas() {
+      ctx.clearRect(0, 0, width, height);
+
+      butterflies.forEach(b => {
+        b.update();
+        b.draw();
+      });
+
+      for (let i = tapButterflies.length - 1; i >= 0; i--) {
+        const tb = tapButterflies[i];
+        tb.update();
+        tb.draw();
+        if (tb.alpha <= 0) {
+          tapButterflies.splice(i, 1);
+        }
+      }
+
+      requestAnimationFrame(animateCanvas);
+    }
+    animateCanvas();
+
+    window.addEventListener('pointerdown', (e) => {
+      if (['TEXTAREA', 'INPUT', 'BUTTON'].includes(e.target.tagName)) return;
+      tapButterflies.push(new Butterfly(true, e.clientX, e.clientY));
+    });
+
+    /* ==========================================
+       2. AUDIO & MUSIC PLAYER LOGIC (IVONNESONG.MP3)
+       ========================================== */
+    let isMusicPlaying = false;
+    let audioSynthContext = null;
+    let synthOscillators = [];
+
+    function startMusic() {
+      const audio = document.getElementById('bg-music');
+      isMusicPlaying = true;
+      updateMusicUI();
+
+      audio.play().catch(err => {
+        console.log("ivonneSong.mp3 not found or blocked, starting ambient synth fallback");
+        startAmbientSynth();
+      });
+    }
+
+    function toggleMusic() {
+      const audio = document.getElementById('bg-music');
+      if (isMusicPlaying) {
+        isMusicPlaying = false;
+        audio.pause();
+        stopAmbientSynth();
+      } else {
+        isMusicPlaying = true;
+        audio.play().catch(() => startAmbientSynth());
+      }
+      updateMusicUI();
+    }
+
+    function updateMusicUI() {
+      const btn = document.getElementById('music-btn');
+      const text = document.getElementById('music-status-text');
+      if (isMusicPlaying) {
+        btn.classList.add('bg-rose-100', 'animate-pulse');
+        if (text) text.innerText = 'Sonando ✨';
+      } else {
+        btn.classList.remove('bg-rose-100', 'animate-pulse');
+        if (text) text.innerText = 'Música';
+      }
+    }
+
+    function startAmbientSynth() {
+      if (!audioSynthContext) {
+        audioSynthContext = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioSynthContext.state === 'suspended') audioSynthContext.resume();
+
+      const freqs = [130.81, 164.81, 196.00, 246.94, 261.63];
+      synthOscillators = [];
+
+      const masterGain = audioSynthContext.createGain();
+      masterGain.gain.setValueAtTime(0.04, audioSynthContext.currentTime);
+
+      const filter = audioSynthContext.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(360, audioSynthContext.currentTime);
+
+      freqs.forEach(freq => {
+        const osc = audioSynthContext.createOscillator();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, audioSynthContext.currentTime);
+
+        const oscGain = audioSynthContext.createGain();
+        oscGain.gain.setValueAtTime(0.02, audioSynthContext.currentTime);
+
+        osc.connect(oscGain);
+        oscGain.connect(filter);
+        osc.start();
+        synthOscillators.push(osc);
+      });
+
+      filter.connect(masterGain);
+      masterGain.connect(audioSynthContext.destination);
+    }
+
+    function stopAmbientSynth() {
+      synthOscillators.forEach(osc => { try { osc.stop(); } catch(e){} });
+      synthOscillators = [];
+    }
+
+    /* ==========================================
+       3. DECK NAVIGATION & RESET FOR TESTING
+       ========================================== */
+    let currentSlide = 0;
+
+    function resetAppForTesting() {
+      if (confirm("¿Quieres reiniciar la prueba desde el sobre inicial? Se borrarán los datos guardados de la cápsula local.")) {
+        localStorage.removeItem('ivonne_future_letter_2026');
+        capsuleData = { q1: '', q2: '', p1: '', p2: '', p3: '', postdata: '', sealed: false };
+        
+        const p1 = document.getElementById('prompt-1-text');
+        const p2 = document.getElementById('prompt-2-text');
+        const p3 = document.getElementById('prompt-3-text');
+        const post = document.getElementById('prompt-postdata-text');
+        const q1in = document.getElementById('q1-custom-input');
+        const q2in = document.getElementById('q2-custom-input');
+        if (p1) p1.value = '';
+        if (p2) p2.value = '';
+        if (p3) p3.value = '';
+        if (post) post.value = '';
+        if (q1in) q1in.value = '';
+        if (q2in) q2in.value = '';
+
+        const btns = document.querySelectorAll('.q1-btn, .q2-btn');
+        btns.forEach(b => b.classList.remove('bg-rose-100/80', 'border-roseDusty', 'font-bold'));
+
+        const envBox = document.getElementById('envelope-box');
+        if (envBox) envBox.classList.remove('scale-95', 'opacity-0');
+
+        goToSlide(0);
+      }
+    }
+
+    function openLetterDeck() {
+      startMusic();
+
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 45,
+          spread: 80,
+          origin: { y: 0.6 },
+          colors: ['#C87584', '#F0E0E4', '#C5B382', '#FAF6F7']
+        });
+      }
+
+      goToSlide(1);
+    }
+
+    function goToSlide(slideIdx) {
+      const currentEl = document.getElementById(`slide-${currentSlide}`);
+      const nextEl = document.getElementById(`slide-${slideIdx}`);
+
+      if (currentEl) {
+        currentEl.classList.add('opacity-0');
+        setTimeout(() => {
+          currentEl.classList.add('hidden');
+
+          if (nextEl) {
+            nextEl.classList.remove('hidden');
+            setTimeout(() => {
+              nextEl.classList.remove('opacity-0');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 40);
+          }
+        }, 250);
+      }
+
+      currentSlide = slideIdx;
+    }
+
+    /* ==========================================
+       4. CHECK-IN SECRETO & CAPSULE LOGIC
+       ========================================== */
+    let capsuleData = {
+      q1: '',
+      q2: '',
+      p1: '',
+      p2: '',
+      p3: '',
+      postdata: '',
+      sealed: false
+    };
+
+    function selectCheckInQ1(optionText) {
+      capsuleData.q1 = optionText;
+      document.getElementById('q1-custom-input').value = '';
+      const btns = document.querySelectorAll('.q1-btn');
+      btns.forEach(b => {
+        if (b.innerText.includes(optionText.substring(2))) {
+          b.classList.add('bg-rose-100/80', 'border-roseDusty', 'font-bold');
+        } else {
+          b.classList.remove('bg-rose-100/80', 'border-roseDusty', 'font-bold');
+        }
+      });
+      saveCapsuleData();
+    }
+
+    function selectCheckInQ1Custom() {
+      const val = document.getElementById('q1-custom-input').value.trim();
+      if (val) {
+        capsuleData.q1 = `✍️ "${val}"`;
+        const btns = document.querySelectorAll('.q1-btn');
+        btns.forEach(b => b.classList.remove('bg-rose-100/80', 'border-roseDusty', 'font-bold'));
+        saveCapsuleData();
+      }
+    }
+
+    function selectCheckInQ2(optionText) {
+      capsuleData.q2 = optionText;
+      document.getElementById('q2-custom-input').value = '';
+      const btns = document.querySelectorAll('.q2-btn');
+      btns.forEach(b => {
+        if (b.innerText.includes(optionText.substring(2))) {
+          b.classList.add('bg-rose-100/80', 'border-roseDusty', 'font-bold');
+        } else {
+          b.classList.remove('bg-rose-100/80', 'border-roseDusty', 'font-bold');
+        }
+      });
+      saveCapsuleData();
+    }
+
+    function selectCheckInQ2Custom() {
+      const val = document.getElementById('q2-custom-input').value.trim();
+      if (val) {
+        capsuleData.q2 = `✍️ "${val}"`;
+        const btns = document.querySelectorAll('.q2-btn');
+        btns.forEach(b => b.classList.remove('bg-rose-100/80', 'border-roseDusty', 'font-bold'));
+        saveCapsuleData();
+      }
+    }
+
+    function saveCapsuleData() {
+      capsuleData.p1 = document.getElementById('prompt-1-text')?.value || '';
+      capsuleData.p2 = document.getElementById('prompt-2-text')?.value || '';
+      capsuleData.p3 = document.getElementById('prompt-3-text')?.value || '';
+      capsuleData.postdata = document.getElementById('prompt-postdata-text')?.value || '';
+
+      const existing = localStorage.getItem('ivonne_future_letter_2026');
+      if (existing) {
+        try {
+          const parsed = JSON.parse(existing);
+          if (parsed.sealed) return;
+        } catch(e){}
+      }
+
+      localStorage.setItem('ivonne_future_letter_2026', JSON.stringify(capsuleData));
+    }
+
+    function sealCapsuleRitual() {
+      saveCapsuleData();
+      capsuleData.sealed = true;
+      capsuleData.sealedAt = new Date().toISOString();
+
+      localStorage.setItem('ivonne_future_letter_2026', JSON.stringify(capsuleData));
+
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 65,
+          spread: 90,
+          origin: { y: 0.6 },
+          colors: ['#C87584', '#C5B382', '#F0E0E4']
+        });
+      }
+
+      document.getElementById('summary-q1').innerText = capsuleData.q1 ? `Estado: ${capsuleData.q1}` : 'Estado de ánimo guardado.';
+      document.getElementById('summary-q2').innerText = capsuleData.q2 ? `Deseo: ${capsuleData.q2}` : 'Deseo de Octubre guardado.';
+
+      goToSlide(7);
+    }
+
+    function loadSavedCapsuleState() {
+      const saved = localStorage.getItem('ivonne_future_letter_2026');
+      if (!saved) return;
+
+      try {
+        const data = JSON.parse(saved);
+        capsuleData = data;
+
+        if (data.sealed) {
+          document.getElementById('summary-q1').innerText = data.q1 ? `Estado: ${data.q1}` : 'Estado de ánimo guardado.';
+          document.getElementById('summary-q2').innerText = data.q2 ? `Deseo: ${data.q2}` : 'Deseo de Octubre guardado.';
+          setTimeout(() => goToSlide(7), 100);
+        } else {
+          if (data.p1) document.getElementById('prompt-1-text').value = data.p1;
+          if (data.p2) document.getElementById('prompt-2-text').value = data.p2;
+          if (data.p3) document.getElementById('prompt-3-text').value = data.p3;
+          if (data.postdata) document.getElementById('prompt-postdata-text').value = data.postdata;
+        }
+      } catch(e){}
+    }
+
+    /* ==========================================
+       5. COUNTDOWN TIMER TO OCT 31 00:00
+       ========================================== */
+    function startCountdown() {
+      const targetDate = new Date('2026-10-31T00:00:00');
+
+      function updateTimer() {
+        const now = new Date();
+        const diff = targetDate - now;
+
+        if (diff <= 0) {
+          document.getElementById('cd-days').innerText = '00';
+          document.getElementById('cd-hours').innerText = '00';
+          document.getElementById('cd-mins').innerText = '00';
+          document.getElementById('cd-secs').innerText = '00';
+          return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const mins = Math.floor((diff / (1000 * 60)) % 60);
+        const secs = Math.floor((diff / 1000) % 60);
+
+        document.getElementById('cd-days').innerText = String(days).padStart(2, '0');
+        document.getElementById('cd-hours').innerText = String(hours).padStart(2, '0');
+        document.getElementById('cd-mins').innerText = String(mins).padStart(2, '0');
+        document.getElementById('cd-secs').innerText = String(secs).padStart(2, '0');
+      }
+
+      updateTimer();
+      setInterval(updateTimer, 1000);
+    }
+
+    // INIT
+    document.addEventListener('DOMContentLoaded', () => {
+      loadSavedCapsuleState();
+      startCountdown();
+    });
+  </script>
 </body>
 </html>

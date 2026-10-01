@@ -1,4 +1,4 @@
-const CACHE_NAME = 'spooky-reset-v2';
+const CACHE_NAME = 'ivonne-app-v3';
 const ASSETS = [
   './',
   './index.html',
@@ -6,7 +6,8 @@ const ASSETS = [
   './icon-192.png',
   './icon-512.png',
   './Ivonne.png',
-  './Ivonne.ico'
+  './Ivonne.ico',
+  './ivonneSong.mp3'
 ];
 
 self.addEventListener('install', (e) => {

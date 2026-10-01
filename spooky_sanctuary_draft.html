@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#FFF2F5" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <title>Octubre & Días Comunes 🌸 | Para Ivonne</title>
+  
+  <!-- PWA Manifest & App Icons -->
+  <link rel="manifest" href="manifest.json" />
+  <link rel="shortcut icon" href="Ivonne.ico" type="image/x-icon" />
+  <link rel="icon" href="Ivonne.ico" type="image/x-icon" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
+  <!-- Google Fonts: Quicksand, Nunito & Caveat for handwritten signatures -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            quicksand: ['Quicksand', 'sans-serif'],
+            nunito: ['Nunito', 'sans-serif'],
+            caveat: ['Caveat', 'cursive'],
+          },
+          colors: {
+            roseCozy: {
+              bg: '#FFF2F5',          /* Soft pink cream background */
+              card: '#FFFFFF',
+              cardSoft: '#FFF7F9',
+              text: '#4A1D34',         /* Deep cozy plum text */
+              subtext: '#834C68',      /* Warm rose subtext */
+              pinkPrimary: '#EC4899',  /* Bright rose pink */
+              pinkLight: '#FCE7F3',    /* Light pastel pink fill */
+              pinkBorder: '#FBCFE8',   /* Gentle pink border */
+              pinkDark: '#BE185D',     /* Deep pink text highlight */
+            }
+          },
+          boxShadow: {
+            'pop-pink': '0 20px 35px -5px rgba(236, 72, 153, 0.18)',
+            'card-pink': '0 8px 25px -4px rgba(236, 72, 153, 0.1)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * {
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    body {
+      font-family: 'Nunito', sans-serif;
+      background-color: #FFF2F5;
+      color: #4A1D34;
+      margin: 0;
+      padding: 0;
+    }
+    h1, h2, h3, .font-title {
+      font-family: 'Quicksand', sans-serif;
+    }
+    .font-handwriting {
+      font-family: 'Caveat', cursive;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-roseCozy-bg text-roseCozy-text pb-12 selection:bg-pink-100 selection:text-pink-800">
+
+  <!-- Ambient Soft Orbs -->
+  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-40">
+    <div class="absolute -top-10 -left-10 w-80 h-80 bg-pink-200 rounded-full blur-3xl"></div>
+    <div class="absolute top-1/2 -right-10 w-80 h-80 bg-purple-200 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-10 left-1/3 w-80 h-80 bg-orange-100 rounded-full blur-3xl"></div>
+  </div>
+
+  <!-- MAIN CONTAINER -->
+  <main class="relative z-10 max-w-md mx-auto px-4 pt-6 space-y-6">
+
+    <!-- HEADER BRANDING -->
+    <header class="flex items-center justify-between bg-white/80 backdrop-blur-md px-4 py-3 rounded-2xl border border-pink-200 shadow-sm">
+      <div class="flex items-center gap-2.5">
+        <img src="Ivonne.png" class="w-8 h-8 rounded-xl object-cover border border-pink-200 shadow-xs" alt="Ivonne Icon" />
+        <div>
+          <h1 class="text-sm font-bold text-roseCozy-text leading-none">Para Ivonne 🌸</h1>
+          <p class="text-[10px] text-roseCozy-subtext mt-0.5">Un espacio de calma</p>
+        </div>
+      </div>
+
+      <!-- Kira Mascot Pill Button -->
+      <button onclick="triggerKiraMessage()" class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-50 border border-pink-200 text-pink-700 text-xs font-bold active:scale-95 transition-transform" title="Kira te cuida">
+        <span>🐾</span>
+        <span class="text-[11px]">Kira</span>
+      </button>
+    </header>
+
+    <!-- INTERACTIVE ENVELOPE CARD -->
+    <section class="bg-white rounded-3xl p-6 sm:p-7 border-2 border-roseCozy-pinkBorder shadow-pop-pink space-y-6 relative overflow-hidden">
+      
+      <!-- Envelope Header Tag -->
+      <div class="flex items-center justify-between border-b border-pink-100 pb-3">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-100 text-pink-800 text-xs font-bold">
+          <span>💌</span> Carta de Octubre
+        </span>
+        <span class="text-xs text-gray-400 font-semibold">Fernando</span>
+      </div>
+
+      <!-- BLOQUE 1: Octubre & Los Días Comunes -->
+      <article class="space-y-3">
+        <div class="flex items-center justify-between">
+          <h2 class="text-base font-bold text-roseCozy-text flex items-center gap-1.5">
+            <span>🍂</span> Octubre & Los días comunes
+          </h2>
+        </div>
+        <p class="text-[11px] text-pink-600 font-bold italic tracking-wide uppercase">
+          (La belleza en los días comunes) — OCTUBRE I
+        </p>
+
+        <div class="p-4 rounded-2xl bg-pink-50/50 border border-pink-100/80 text-sm leading-relaxed text-gray-800 space-y-3 italic">
+          <p>
+            "A veces esperamos que pasen cosas extraordinarias y nos olvidamos de lo valioso que hay en lo sencillo: el café tibio en la mañana, una canción que te salva el viaje, o esa calma tan necesaria cuando por fin llegas a casa después de un turno pesado.
+          </p>
+          <p>
+            No todos los días tienen que ser perfectos ni memorables. Tampoco tenemos que estar al cien todo el tiempo. A veces, vivir también es simplemente ponerse el abrigo más cómodo, respirar hondo y recordar que descansar no es perder el tiempo, es cuidarse."
+          </p>
+        </div>
+      </article>
+
+      <!-- BLOQUE 2: Para Ivonne -->
+      <article class="space-y-3 pt-2 border-t border-pink-100">
+        <h2 class="text-base font-bold text-pink-700 flex items-center gap-1.5">
+          <span>🌸</span> Para Ivonne
+        </h2>
+
+        <div class="p-4 rounded-2xl bg-pink-50/50 border border-pink-100/80 text-sm leading-relaxed text-gray-800 space-y-3">
+          <p>
+            Gracias por compartir tus ratitos conmigo, incluso cuando el cansancio o el estrés del día pesan. Sé lo demandante que se pone la rutina, y por eso valoro el doble cada risa espontánea, cada mensaje entre tus cosas y la tranquilidad de hablar contigo.
+          </p>
+          <p>
+            Este espacio es solo para acompañarte este mes: sin exigencias, sin prisas y sin que tengas que demostrarle nada a nadie. Solo para recordarte que lo estás haciendo genial y que siempre es válido bajar el ritmo y tomarte una pausa cuando lo necesites.
+          </p>
+          
+          <!-- Postscript Warning & Signature -->
+          <div class="pt-3 border-t border-pink-200/60 text-xs text-roseCozy-subtext space-y-2">
+            <p class="italic text-pink-800 font-semibold bg-pink-100/60 p-2.5 rounded-xl border border-pink-200">
+              (Y recuerda: una vez abierto este sobre, queda totalmente prohibida cualquier devolución) 🚫📦
+            </p>
+            <div class="text-right text-2xl font-handwriting text-pink-700 font-bold pt-1">
+              — Fernando ✨
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </section>
+
+    <!-- SECTION 2: LA CARTA PARA TI MISMA (CÁPSULA DEL FUTURO) -->
+    <section class="bg-white rounded-3xl p-6 border-2 border-roseCozy-pinkBorder shadow-card-pink space-y-4">
+      
+      <div class="flex items-center justify-between pb-3 border-b border-pink-100">
+        <div>
+          <h3 class="text-base font-bold text-roseCozy-text flex items-center gap-2">
+            <span>🔒</span> Carta para tu Yo de Fin de Mes
+          </h3>
+          <p class="text-xs text-roseCozy-subtext">Tu mensaje privado para abrir el 31 de Octubre</p>
+        </div>
+        <span class="text-[10px] bg-pink-100 text-pink-800 font-bold px-2.5 py-1 rounded-full border border-pink-200">
+          31 Oct
+        </span>
+      </div>
+
+      <!-- Write Area for Ivonne -->
+      <div class="space-y-3">
+        <textarea 
+          id="future-letter-input" 
+          placeholder="Escribe aquí unas palabras o un deseo para ti misma al terminar Octubre... Se guardará sellado en tu teléfono 💖"
+          class="w-full min-h-[140px] p-4 rounded-2xl bg-pink-50/40 border border-pink-200 focus:outline-none focus:ring-2 focus:ring-pink-400 text-sm leading-relaxed text-gray-800 resize-none transition-all placeholder:text-gray-400"
+          oninput="saveFutureLetter()"
+        ></textarea>
+
+        <div class="flex items-center justify-between text-xs text-gray-400">
+          <span id="future-letter-status">Guardado seguro en tu dispositivo ✨</span>
+          <span class="text-pink-600 font-semibold text-[11px]">100% Privado</span>
+        </div>
+      </div>
+
+      <!-- Countdown/Lock Reassurance -->
+      <div class="p-3 bg-amber-50/80 border border-amber-200 rounded-2xl text-[11px] text-amber-900 leading-snug flex items-center gap-2">
+        <span class="text-base">🔐</span>
+        <span><b>Sello de Fin de Mes:</b> Este mensaje se mantendrá guardado de forma privada para que lo leas el 31 de Octubre.</span>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- KIRA MODAL -->
+  <div id="kira-modal" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-black/40 backdrop-blur-xs">
+    <div class="bg-white w-full max-w-sm rounded-3xl p-5 border-2 border-pink-300 shadow-pop-pink space-y-3">
+      <div class="flex items-center justify-between pb-2 border-b border-pink-100">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🐶</span>
+          <span class="text-xs font-extrabold text-pink-700 uppercase tracking-wider">Kira dice:</span>
+        </div>
+        <button onclick="hideKiraModal()" class="w-7 h-7 rounded-full bg-pink-100 text-pink-700 flex items-center justify-center font-bold text-xs">✕</button>
+      </div>
+
+      <p id="kira-modal-quote" class="text-sm font-bold italic text-roseCozy-text text-center py-2 leading-relaxed">
+        "¡Kira dice que hoy hiciste suficiente y te mereces descansar!"
+      </p>
+
+      <button onclick="hideKiraModal()" class="w-full py-2.5 rounded-2xl bg-gradient-to-r from-pink-400 to-rose-400 text-white text-xs font-extrabold shadow-sm active:scale-95 transition-transform">
+        ¡Gracias Kira! 🐾💖
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const KIRA_MESSAGES = [
+      "🐾 Kira dice que hoy hiciste suficiente y te mereces descansar súper bien.",
+      "🐻🧥 Recordatorio oficial de Kira: ¡Abrígate como un oso! No pases frío.",
+      "🚫📦 Recordatorio: ¡Una vez abierto este sobre, queda prohibida cualquier devolución!",
+      "✨ Kira te manda un abrazo gigante esponjoso y 1000% de buena energía.",
+      "🍵 Tómate un café o té caliente y desconecta del trabajo por hoy."
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadFutureLetter();
+    });
+
+    function triggerKiraMessage() {
+      const modal = document.getElementById('kira-modal');
+      const quoteText = document.getElementById('kira-modal-quote');
+      const randomMsg = KIRA_MESSAGES[Math.floor(Math.random() * KIRA_MESSAGES.length)];
+      
+      quoteText.innerText = `"${randomMsg}"`;
+      modal.classList.remove('hidden');
+
+      if (typeof confetti === 'function') {
+        confetti({ particleCount: 30, spread: 50, colors: ['#EC4899', '#F472B6', '#FBCFE8'] });
+      }
+    }
+
+    function hideKiraModal() {
+      document.getElementById('kira-modal').classList.add('hidden');
+    }
+
+    // Future letter storage
+    function loadFutureLetter() {
+      const saved = localStorage.getItem('ivonne_future_letter_2026');
+      if (saved) {
+        document.getElementById('future-letter-input').value = saved;
+      }
+    }
+
+    let saveTimer = null;
+    function saveFutureLetter() {
+      clearTimeout(saveTimer);
+      const statusText = document.getElementById('future-letter-status');
+      statusText.innerText = "Guardando...";
+
+      saveTimer = setTimeout(() => {
+        const text = document.getElementById('future-letter-input').value;
+        localStorage.setItem('ivonne_future_letter_2026', text);
+        statusText.innerText = "Guardado seguro en tu dispositivo ✨";
+      }, 400);
+    }
+  </script>
+</body>
+</html>

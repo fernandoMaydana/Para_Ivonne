@@ -1,11 +1,11 @@
 {
-  "name": "Octubre Pink - Spooky Reset",
-  "short_name": "Spooky Reset",
-  "description": "App web de hábitos, calendario y diario privado para Ivonne 💖🎃",
+  "name": "Ivonne",
+  "short_name": "Ivonne",
+  "description": "Un espacio de calma, cartas y cápsula del tiempo para Ivonne 🌸",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#FFF2F5",
-  "theme_color": "#FFF2F5",
+  "background_color": "#FAF6F7",
+  "theme_color": "#FAF6F7",
   "orientation": "portrait",
   "icons": [
     {
