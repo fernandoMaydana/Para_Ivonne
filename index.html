@@ -16,9 +16,6 @@
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Canvas Confetti CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   
   <!-- Google Fonts: Quicksand & Nunito -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -78,64 +75,25 @@
     <div class="absolute -bottom-10 -right-10 w-80 h-80 bg-purple-200 rounded-full blur-3xl"></div>
   </div>
 
-  <!-- MAINTENANCE CARD -->
-  <main class="relative z-10 w-full max-w-sm bg-white rounded-3xl p-6 sm:p-8 border-2 border-roseCozy-pinkBorder shadow-pop-pink text-center space-y-5">
+  <!-- ULTRA CLEAN MAINTENANCE CARD -->
+  <main class="relative z-10 w-full max-w-sm bg-white rounded-3xl p-8 border-2 border-roseCozy-pinkBorder shadow-pop-pink text-center space-y-4">
     
     <!-- Top Icon Badge -->
-    <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-tr from-pink-200 via-purple-100 to-amber-100 border-2 border-pink-300 shadow-md">
-      <span class="text-4xl animate-bounce">🚧</span>
+    <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-tr from-pink-200 via-purple-100 to-amber-100 border-2 border-pink-300 shadow-sm">
+      <span class="text-4xl">🚧</span>
     </div>
 
-    <!-- Title & Subtitle -->
-    <div class="space-y-2">
-      <span class="inline-block px-3 py-1 rounded-full bg-pink-100 text-pink-700 text-xs font-bold uppercase tracking-wider border border-pink-200">
-        ✨ Modo Secreto Activo
-      </span>
+    <!-- Title & Minimal Subtitle -->
+    <div class="space-y-2 pt-2">
       <h1 class="text-2xl font-bold text-roseCozy-text">
         Página en Mantenimiento
       </h1>
-      <p class="text-sm font-bold text-pink-600">
-        Se vienen cositas... jaja 💖🎃
+      <p class="text-base font-bold text-pink-600">
+        Se vienen cositas... 💖🎃
       </p>
     </div>
 
-    <!-- Friendly Message -->
-    <div class="p-4 rounded-2xl bg-pink-50/70 border border-pink-200 text-xs text-roseCozy-subtext leading-relaxed font-semibold">
-      <p class="mb-2">🐾 Kira y Fernando están afinando los detalles de algo muy especial para ti.</p>
-      <p class="italic text-pink-700 font-bold">"Recordatorio oficial: ¡prohibido curiosear antes de tiempo! 🚫📦"</p>
-    </div>
-
-    <!-- Interactive Button -->
-    <button 
-      onclick="triggerConfetti()" 
-      class="w-full py-3 rounded-2xl bg-gradient-to-r from-pink-500 to-rose-400 text-white font-extrabold text-xs shadow-md hover:shadow-lg active:scale-95 transition-all flex items-center justify-center gap-2"
-    >
-      <span>✨</span>
-      <span>Tocar para ver avance (Secreto)</span>
-    </button>
-
-    <!-- Footer Note -->
-    <p id="secret-msg" class="text-[11px] text-gray-400 font-semibold italic min-h-[20px]">
-      Vuelve muy pronto... 💖
-    </p>
-
   </main>
 
-  <script>
-    function triggerConfetti() {
-      const msg = document.getElementById('secret-msg');
-      msg.innerText = "🐾 Kira dice: ¡Ten paciencia Ivonne, valdrá 100% la pena!";
-      msg.classList.add('text-pink-600', 'font-bold');
-
-      if (typeof confetti === 'function') {
-        confetti({
-          particleCount: 40,
-          spread: 60,
-          origin: { y: 0.6 },
-          colors: ['#EC4899', '#F472B6', '#FBCFE8', '#FB923C']
-        });
-      }
-    }
-  </script>
 </body>
 </html>
