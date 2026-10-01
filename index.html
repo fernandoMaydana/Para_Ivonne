@@ -133,15 +133,9 @@
   <!-- AUDIO PLAYER FOR IVONNESONG.MP3 -->
   <audio id="bg-music" src="ivonneSong.mp3" loop class="hidden"></audio>
 
-  <!-- FLOATING CONTROLLERS (Top-Right: Reiniciar & Música) -->
-  <div id="subtle-audio-control" class="fixed top-4 right-4 z-40 flex items-center gap-2">
-    <!-- BOTÓN DE REINICIO DE PRUEBAS -->
-    <button onclick="resetAppForTesting()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-cozyBorder text-cozyText text-xs font-bold font-typewriter shadow-sm active:scale-95 transition-all" title="Reiniciar aplicación para pruebas">
-      <span>🔄</span>
-      <span class="text-[10px]">Reiniciar</span>
-    </button>
-    <!-- BOTÓN DE CONTROL DE MÚSICA -->
-    <button onclick="toggleMusic()" id="music-btn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-cozyBorder text-cozyText text-xs font-bold font-typewriter shadow-sm active:scale-95 transition-all">
+  <!-- FLOATING MUSIC CONTROLLER (Top-Right) -->
+  <div id="subtle-audio-control" class="fixed top-4 right-4 z-40">
+    <button onclick="toggleMusic()" id="music-btn" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-cozyBorder text-cozyText text-xs font-bold font-typewriter shadow-sm active:scale-95 transition-all">
       <span id="music-icon">🎵</span>
       <span id="music-status-text" class="text-[10px]">Música</span>
     </button>
@@ -151,7 +145,7 @@
   <main class="min-h-screen flex flex-col justify-center items-center px-4 py-8 relative z-10 max-w-md mx-auto w-full font-typewriter">
 
     <!-- ==========================================
-         SLIDE 0: EL SOBRE 3D INICIAL (AMPLIO, ELEGANTE Y ACOGEDOR)
+         SLIDE 0: EL SOBRE 3D INICIAL
          ========================================== -->
     <div id="slide-0" class="card-slide w-full">
       
@@ -785,37 +779,9 @@
     }
 
     /* ==========================================
-       3. DECK NAVIGATION & RESET FOR TESTING
+       3. DECK NAVIGATION
        ========================================== */
     let currentSlide = 0;
-
-    function resetAppForTesting() {
-      if (confirm("¿Quieres reiniciar la prueba desde el sobre inicial? Se borrarán los datos guardados de la cápsula local.")) {
-        localStorage.removeItem('ivonne_future_letter_2026');
-        capsuleData = { q1: '', q2: '', p1: '', p2: '', p3: '', postdata: '', sealed: false };
-        
-        const p1 = document.getElementById('prompt-1-text');
-        const p2 = document.getElementById('prompt-2-text');
-        const p3 = document.getElementById('prompt-3-text');
-        const post = document.getElementById('prompt-postdata-text');
-        const q1in = document.getElementById('q1-custom-input');
-        const q2in = document.getElementById('q2-custom-input');
-        if (p1) p1.value = '';
-        if (p2) p2.value = '';
-        if (p3) p3.value = '';
-        if (post) post.value = '';
-        if (q1in) q1in.value = '';
-        if (q2in) q2in.value = '';
-
-        const btns = document.querySelectorAll('.q1-btn, .q2-btn');
-        btns.forEach(b => b.classList.remove('bg-rose-100/80', 'border-roseDusty', 'font-bold'));
-
-        const envBox = document.getElementById('envelope-box');
-        if (envBox) envBox.classList.remove('scale-95', 'opacity-0');
-
-        goToSlide(0);
-      }
-    }
 
     function openLetterDeck() {
       startMusic();
