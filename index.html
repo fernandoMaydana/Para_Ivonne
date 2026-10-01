@@ -697,7 +697,7 @@
     });
 
     /* ==========================================
-       2. AUDIO & MUSIC PLAYER LOGIC (IVONNESONG.MP3)
+       2. AUDIO & MUSIC PLAYER LOGIC (IVONNESONG.MP3 & PAGE VISIBILITY LISTENER)
        ========================================== */
     let isMusicPlaying = false;
     let audioSynthContext = null;
@@ -717,15 +717,34 @@
     function toggleMusic() {
       const audio = document.getElementById('bg-music');
       if (isMusicPlaying) {
-        isMusicPlaying = false;
-        audio.pause();
-        stopAmbientSynth();
+        pauseMusicForBackground();
       } else {
         isMusicPlaying = true;
         audio.play().catch(() => startAmbientSynth());
+        updateMusicUI();
       }
+    }
+
+    function pauseMusicForBackground() {
+      const audio = document.getElementById('bg-music');
+      if (audio) audio.pause();
+      stopAmbientSynth();
+      isMusicPlaying = false;
       updateMusicUI();
     }
+
+    // AUTOMATICALLY PAUSE MUSIC WHEN SWITCHING APPS, LOCKING SCREEN OR HIDING TAB
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        pauseMusicForBackground();
+      }
+    });
+    window.addEventListener('pagehide', () => {
+      pauseMusicForBackground();
+    });
+    window.addEventListener('blur', () => {
+      pauseMusicForBackground();
+    });
 
     function updateMusicUI() {
       const btn = document.getElementById('music-btn');
